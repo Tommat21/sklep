@@ -125,7 +125,7 @@
     <label for="nazwa">Nazwa użytkownika:</label>
     <input type="text" name="nazwa"><br>
     <label for="email">Email:</label>
-    <input type="text" name="email"><br>
+    <input type="email" name="email"><br>
     <label for="password">Hasło:</label>
     <input type="password" name="password"><br>
     <label for="password2">Potwierdź hasło:</label>
