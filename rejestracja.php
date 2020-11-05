@@ -78,7 +78,7 @@
     <div class="col-sm">
     
     <?php
-      error_reporting(0);
+      error_reporting(-1);
       require "polaczenie.php";
       if(isset($_POST['register']))
       {
@@ -97,7 +97,7 @@
       {
             if ($password == $password2)
             {
-      $kod_aktywacyjny = substr(md5(time().range(1, 9999)), 1, 12);
+      $kod_aktywacyjny = md5(uniqid(rand()));
       $sth = $pdo->prepare('INSERT INTO uzytkownik (login,email,haslo,kod_aktywacyjny) VALUE
       (:nazwa,:email,:password,:kod_aktywacyjny)');
       $sth->bindValue(':nazwa', $nazwa, PDO::PARAM_STR);
@@ -105,10 +105,9 @@
       $sth->bindValue(':password', $hashPassword, PDO::PARAM_STR);
       $sth->bindValue(':kod_aktywacyjny', $kod_aktywacyjny, PDO::PARAM_STR);
       $sth->execute();
-      $message='Aby aktywować konto w serwisie sklepik kliknij w link: http://masnyted.ct8.pl/aktywacja.php i wpisz kod podany poniżej:\r\n'.$kod_aktywacyjny.'';
-      $headers = 'From: sklepik@gmail.com' . "\r\n" .
-      'Reply-To: sklepik@gmail.com' . "\r\n" .
-      'X-Mailer: PHP/' . phpversion();
+      $message='Aby aktywować konto w serwisie sklepik kliknij w link: http://masnyted.ct8.pl/aktywacja.php i wpisz kod podany poniżej:'. "\r\n" .$kod_aktywacyjny.'';
+      $headers = 'From: masnyted@masnyted.ct8.pl' . "\r\n" .
+      'Reply-To: masnyted@masnyted.ct8.pl' . "\r\n";
       mail($email, 'Aktywacja konta', $message, $headers);
       die("<h3>Zarejestrowano pomyślnie! Sprawdź maila w celu aktywacji konta.</h3>");
       }
