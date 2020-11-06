@@ -2,6 +2,13 @@
 <html lang="pl">
     <?php
     session_start();
+    require "polaczenie.php";
+    error_reporting(-1);
+    if(empty($_SESSION['email']['haslo'])) { 
+   header("Location: http://masnyted.ct8.pl/login.php");  
+   die("Redirecting to login.php"); 
+} 
+$username = $_SESSION['email']['haslo'];
     ?>
   <head>
     <meta charset="utf-8">
@@ -54,11 +61,15 @@
   </nav>
    
   </div>
-
-  <?php
-  if (empty($_SESSION['user']))
-  {
-  ?>
+<?php if($zalogowany): ?>
+  <div class="float-right">
+  
+  <nav class="navbar navbar-light bg-primary">
+  <form class="form-inline">
+  <button onclick="window.location.href = 'wyloguj.php';" type="button" class="btn btn-primary">Wyloguj się</button>
+  </form>
+  </nav>
+  <?php else: ?>
   <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
@@ -68,19 +79,7 @@
   </nav>
  
   </div>
-  <?php
-  } else {
-  ?>
-  <div class="float-right">
-  
-  <nav class="navbar navbar-light bg-primary">
-  <form class="form-inline">
-  <button onclick="window.location.href = 'wyloguj.php';" type="button" class="btn btn-primary">Wyloguj się</button>
-  </form>
-  </nav>
-  <?php
-  }
-  ?>
+  <?php endif; ?>
   </nav>
 
 
