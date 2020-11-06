@@ -125,13 +125,8 @@ $_SESSION['user'] = htmlspecialchars($_POST['login']);
 	<form method="post">
 		<label for="email">Email:</label>
 		<input type="email" name="email"><br>
-<<<<<<< Updated upstream
 		<label for="haslo">Hasło:</label>
 		<input type="password" name="haslo">
-=======
-		<label for="hasło">Hasło:</label>
-		<input type="password" name="has�o">
->>>>>>> Stashed changes
 		<a href="mailhaslo.php">Zapomniałeś hasła?</a>
 		<button id="logowanie" type="submit" name="login" class="btn btn-primary mb-2">Zaloguj</button>
 	</form>
