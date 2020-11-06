@@ -1,8 +1,5 @@
 <!doctype html>
 <html lang="pl">
-    <?php
-    session_start();
-    ?>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -83,12 +80,13 @@
     <div class="col-sm">
   
 <?php
+session_start();
 error_reporting(-1);
 require "polaczenie.php";
 if(isset($_POST['login']))
 {
  $email = trim($_POST['email']);
- $haslo = trim($_POST['has�o']);
+ $haslo = trim($_POST['haslo']);
  $sth = $pdo->prepare('SELECT * FROM uzytkownik WHERE email=:email limit 1');
  $sth->bindValue(':email', $email, PDO::PARAM_STR);
  $sth->execute();
@@ -100,22 +98,22 @@ if(isset($_POST['login']))
  
  if($user)
 {
- if(password_verify($haslo,$user['has�o']))
+ if(password_verify($haslo,$user['haslo']))
 {
 if(!$akt){
   die("<h3>Konto wymaga aktywacji przez kod podany w mailu!</h3>");
 }else{
-die("<h3>Użytkownik zalogowany pomyślnie!</h3>");}
+die("<h3>Użytkownik zalogowany pomyślnie!</h3>");
+}
  }else{
  echo "<h3 id='blad'>Nieprawidłowe hasło!</h3>";
  }
  }else{
  echo "<h3 id='blad'>Nie znaleziono użytkownika!</h3>";
  }
-}
-if (password_verify($_POST['has�o'], $hashPassword))
-{
-$_SESSION['user'] = htmlspecialchars($_POST['login']);
+ $_SESSION['valid'] = true;
+ $_SESSION["email"];
+$_SESSION["haslo"];
 }
 ?>
     <h1>Zaloguj się: <br><br></h1>
