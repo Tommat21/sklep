@@ -1,5 +1,8 @@
 <!doctype html>
 <html lang="pl">
+    <?php
+    session_start();
+    ?>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -52,7 +55,10 @@
    
   </div>
 
-  
+  <?php
+  if (empty($_SESSION['user']))
+  {
+  ?>
   <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
@@ -62,7 +68,19 @@
   </nav>
  
   </div>
+  <?php
+  } else {
+  ?>
+  <div class="float-right">
   
+  <nav class="navbar navbar-light bg-primary">
+  <form class="form-inline">
+  <button onclick="window.location.href = 'wyloguj.php';" type="button" class="btn btn-primary">Wyloguj się</button>
+  </form>
+  </nav>
+  <?php
+  }
+  ?>
   </nav>
 
 
