@@ -119,8 +119,8 @@ die("<h3>Użytkownik zalogowany pomyślnie!</h3>");}
 	<form method="post">
 		<label for="email">Email:</label>
 		<input type="email" name="email"><br>
-		<label for="hasło">Hasło:</label>
-		<input type="password" name="hasło">
+		<label for="haslo">Hasło:</label>
+		<input type="password" name="haslo">
 		<a href="mailhaslo.php">Zapomniałeś hasła?</a>
 		<button id="logowanie" type="submit" name="login" class="btn btn-primary mb-2">Zaloguj</button>
 	</form>
