@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="pl">
-
+    <?php
+    session_start();
+    ?>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -81,11 +83,12 @@
     <div class="col-sm">
   
 <?php
+error_reporting(-1);
 require "polaczenie.php";
 if(isset($_POST['login']))
 {
  $email = trim($_POST['email']);
- $haslo = trim($_POST['haslo']);
+ $haslo = trim($_POST['has�o']);
  $sth = $pdo->prepare('SELECT * FROM uzytkownik WHERE email=:email limit 1');
  $sth->bindValue(':email', $email, PDO::PARAM_STR);
  $sth->execute();
@@ -97,7 +100,7 @@ if(isset($_POST['login']))
  
  if($user)
 {
- if(password_verify($haslo,$user['haslo']))
+ if(password_verify($haslo,$user['has�o']))
 {
 if(!$akt){
   die("<h3>Konto wymaga aktywacji przez kod podany w mailu!</h3>");
@@ -110,7 +113,10 @@ die("<h3>Użytkownik zalogowany pomyślnie!</h3>");}
  echo "<h3 id='blad'>Nie znaleziono użytkownika!</h3>";
  }
 }
-
+if (password_verify($_POST['has�o'], $hashPassword))
+{
+$_SESSION['user'] = htmlspecialchars($_POST['login']);
+}
 ?>
     <h1>Zaloguj się: <br><br></h1>
     
@@ -119,8 +125,13 @@ die("<h3>Użytkownik zalogowany pomyślnie!</h3>");}
 	<form method="post">
 		<label for="email">Email:</label>
 		<input type="email" name="email"><br>
+<<<<<<< Updated upstream
 		<label for="haslo">Hasło:</label>
 		<input type="password" name="haslo">
+=======
+		<label for="hasło">Hasło:</label>
+		<input type="password" name="has�o">
+>>>>>>> Stashed changes
 		<a href="mailhaslo.php">Zapomniałeś hasła?</a>
 		<button id="logowanie" type="submit" name="login" class="btn btn-primary mb-2">Zaloguj</button>
 	</form>
