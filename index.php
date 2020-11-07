@@ -4,11 +4,7 @@
     session_start();
     require "polaczenie.php";
     error_reporting(-1);
-    if(empty($_SESSION['email']['haslo'])) { 
-   header("Location: http://masnyted.ct8.pl/login.php");  
-   die("Redirecting to login.php"); 
-} 
-$username = $_SESSION['email']['haslo'];
+$zalogowany = $_SESSION['valid'];
     ?>
   <head>
     <meta charset="utf-8">
