@@ -1,5 +1,15 @@
 <!doctype html>
 <html lang="pl">
+        <?php
+    session_start();
+    require "polaczenie.php";
+    error_reporting(-1);
+$zalogowany = $_SESSION['valid'];
+if($zalogowany)
+{
+   header("Location: http://masnyted.ct8.pl/index.php"); 
+}
+    ?>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -62,7 +72,15 @@
    
   </div>
 
+<?php if($zalogowany): ?>
+  <div class="float-right">
   
+  <nav class="navbar navbar-light bg-primary">
+  <form class="form-inline">
+  <button onclick="window.location.href = 'wyloguj.php';" type="button" class="btn btn-primary">Wyloguj się</button>
+  </form>
+  </nav>
+  <?php else: ?>
   <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
@@ -72,6 +90,7 @@
   </nav>
  
   </div>
+  <?php endif; ?>
   
   </nav>
    
@@ -80,9 +99,6 @@
     <div class="col-sm">
   
 <?php
-session_start();
-error_reporting(-1);
-require "polaczenie.php";
 if(isset($_POST['login']))
 {
  $email = trim($_POST['email']);
@@ -95,7 +111,6 @@ if(isset($_POST['login']))
  $spr->bindValue(':email', $email, PDO::PARAM_STR);
  $spr->execute();
  $akt = $spr->fetch(PDO::FETCH_ASSOC);
- 
  if($user)
 {
  if(password_verify($haslo,$user['haslo']))
@@ -103,6 +118,8 @@ if(isset($_POST['login']))
 if(!$akt){
   die("<h3>Konto wymaga aktywacji przez kod podany w mailu!</h3>");
 }else{
+$_SESSION['valid'] = true;
+header("Location: http://masnyted.ct8.pl/index.php");
 die("<h3>Użytkownik zalogowany pomyślnie!</h3>");
 }
  }else{
@@ -111,9 +128,6 @@ die("<h3>Użytkownik zalogowany pomyślnie!</h3>");
  }else{
  echo "<h3 id='blad'>Nie znaleziono użytkownika!</h3>";
  }
- $_SESSION['valid'] = true;
- $_SESSION["email"];
-$_SESSION["haslo"];
 }
 ?>
     <h1>Zaloguj się: <br><br></h1>
