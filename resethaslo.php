@@ -88,7 +88,27 @@ $zalogowany = $_SESSION['valid'];
 <div class="container">
   <div id="jeden" class="row">	
     <div class="col-sm">
-		
+    <?php
+    if(isset($_POST['register']))
+    {
+    $userId = isset($_GET['uid']) ? trim($_GET['uid']) : '';
+    $token = isset($_GET['t']) ? trim($_GET['t']) : '';
+    $passwordRequestId = isset($_GET['id']) ? trim($_GET['id']) : '';
+    $sql = "
+      SELECT id_reset, email
+      FROM haslo_reset
+      WHERE 
+        token = :token
+        ";
+    $statement = $pdo->prepare($sql);
+    $statement->execute(array(
+    "token" => $token
+    ));
+    $requestInfo = $statement->fetch(PDO::FETCH_ASSOC);
+    $_SESSION['user_id_reset_pass'] = $userId;
+    
+    }
+    ?>
 		
 		<h1>Wprowadź nowe hasło: </h1>
 		<h4>
