@@ -102,6 +102,36 @@ $zalogowany = $_SESSION['valid'];
   <div id="jeden" class="row">	
     <div class="col-sm">
 		
+    <?php
+        if (isset($_POST['register'])) {
+            $email = $_POST['email'];
+            $sql = "SELECT id_uzytkownik, email FROM uzytkownik WHERE email = :email";
+            $statement = $pdo->prepare($sql);
+            $statement->bindValue(':email', $email);
+            $statement->execute();
+            $userInfo = $statement->fetch(PDO::FETCH_ASSOC);
+            $userEmail = $userInfo['email'];
+            $userId = $userInfo['id_uzytkownik'];
+            $token = openssl_random_pseudo_bytes(16);
+            $token2 = bin2hex($token);
+            $insert = $pdo->prepare("INSERT INTO haslo_reset
+              (id_uøytkownik, email, token)
+              VALUES
+              (:userId, :email, :token)");
+            $insert->bindValue(':userId', $userId, PDO::PARAM_STR);
+            $insert->bindValue(':email', $email, PDO::PARAM_STR);
+            $insert->bindValue(':token', $token2, PDO::PARAM_STR);
+            $insert->execute();
+            $passwordRequestId = $pdo->lastInsertId();
+            $verifyScript = 'http://masnyted.ct8.pl/resethaslo.php';
+            $linkToSend = $verifyScript . '?uid=' . $userId . '&id=' . $passwordRequestId . '&t=' . $token2;
+            $message="Aby zresetowaÊ has≥o kliknij w podany link $linkToSend";
+            $headers = 'From: masnyted@masnyted.ct8.pl' . "\r\n" .
+            'Reply-To: masnyted@masnyted.ct8.pl' . "\r\n";
+            mail($email, 'Zmiana has≥a', $message, $headers);
+            die("<h3>Link do zmiany has≈Ça zosta≈Ç wys≈Çany na maila.</h3>");
+        }
+    ?>
 		
 		<h2>Zresetuj has≈Ço: </h2>
 		<h4>
