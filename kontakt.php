@@ -1,5 +1,11 @@
 <!doctype html>
 <html lang="pl">
+        <?php
+    session_start();
+    require "polaczenie.php";
+    error_reporting(-1);
+$zalogowany = $_SESSION['valid'];
+    ?>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -51,7 +57,15 @@
    
   </div>
 
+<?php if($zalogowany): ?>
+  <div class="float-right">
   
+  <nav class="navbar navbar-light bg-primary">
+  <form class="form-inline">
+  <button onclick="window.location.href = 'wyloguj.php';" type="button" class="btn btn-primary">Wyloguj się</button>
+  </form>
+  </nav>
+  <?php else: ?>
   <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
@@ -61,6 +75,7 @@
   </nav>
  
   </div>
+  <?php endif; ?>
   
   </nav>
 
