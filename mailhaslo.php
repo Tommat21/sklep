@@ -115,7 +115,7 @@ $zalogowany = $_SESSION['valid'];
             $token = openssl_random_pseudo_bytes(16);
             $token2 = bin2hex($token);
             $insert = $pdo->prepare("INSERT INTO haslo_reset
-              (id_u¿ytkownik, email, token)
+              (id_uzytkownik, email, token)
               VALUES
               (:userId, :email, :token)");
             $insert->bindValue(':userId', $userId, PDO::PARAM_STR);
@@ -125,10 +125,10 @@ $zalogowany = $_SESSION['valid'];
             $passwordRequestId = $pdo->lastInsertId();
             $verifyScript = 'http://masnyted.ct8.pl/resethaslo.php';
             $linkToSend = $verifyScript . '?uid=' . $userId . '&id=' . $passwordRequestId . '&t=' . $token2;
-            $message="Aby zresetowaæ has³o kliknij w podany link $linkToSend";
+            $message="Aby zresetowaÄ‡ hasÅ‚o kliknij w podany link $linkToSend";
             $headers = 'From: masnyted@masnyted.ct8.pl' . "\r\n" .
             'Reply-To: masnyted@masnyted.ct8.pl' . "\r\n";
-            mail($email, 'Zmiana has³a', $message, $headers);
+            mail($email, 'Zmiana hasÅ‚a', $message, $headers);
             die("<h3>Link do zmiany hasÅ‚a zostaÅ‚ wysÅ‚any na maila.</h3>");
         }
     ?>
