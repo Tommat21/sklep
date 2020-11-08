@@ -23,7 +23,7 @@ $zalogowany = $_SESSION['valid'];
 	button#rejestracja {font-size: 50px; padding: 20px;}
 	h2 {text-align: center;}
 	div#dwa {background-color:rgb(112,57,68); padding: 30px; position: fixed; top: 25%; left: 50%; transform: translate(-50%, -50%); border-radius: 25px;}
-
+        h3 {line-height: normal}
   </style>
 	
 	
