@@ -109,6 +109,10 @@ $zalogowany = $_SESSION['valid'];
       {
             if ($password == $password2)
             {
+                if($password !="" && $password2 !="")
+                {
+                    if(strlen($password)>=8 && strlen($password2)>=8)
+                    {
       $kod_aktywacyjny = md5(uniqid(rand()));
       $sth = $pdo->prepare('INSERT INTO uzytkownik (login,email,haslo,kod_aktywacyjny) VALUE
       (:nazwa,:email,:password,:kod_aktywacyjny)');
@@ -122,6 +126,10 @@ $zalogowany = $_SESSION['valid'];
       'Reply-To: masnyted@masnyted.ct8.pl' . "\r\n";
       mail($email, 'Aktywacja konta', $message, $headers);
       die("<h3>Zarejestrowano pomyślnie! Sprawdź maila w celu aktywacji konta.</h3>");
+                    }
+                    else echo "<h3 id='blad'>Hasło musi zawierać przynajmniej 8 znakow</h3>";
+            }
+            else echo "<h3 id='blad'>Podaj Hasło!</h3>";
       }
             else echo "<h3 id='blad'>Hasła nie są takie same!</h3>";
       }
