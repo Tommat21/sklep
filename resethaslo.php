@@ -21,7 +21,8 @@ $zalogowany = $_SESSION['valid'];
 	label {width: 200px; margin: 5px 0; clear: left;}
 	button#logowanie { margin-left: 205px;}
 	button#rejestracja {font-size: 50px; padding: 20px;}
-
+        h3 {line-height: normal}
+        h3#blad{font-style: italic; color: red}
   </style>
 	
 	
@@ -95,18 +96,44 @@ $zalogowany = $_SESSION['valid'];
     $token = isset($_GET['t']) ? trim($_GET['t']) : '';
     $passwordRequestId = isset($_GET['id']) ? trim($_GET['id']) : '';
     $sql = "
-      SELECT id_reset, email
+      SELECT id_reset, id_uzytkownika, email
       FROM haslo_reset
       WHERE 
-        token = :token
+        id_uzytkownika = :user_id AND 
+        token = :token AND 
+        id_reset = :id
         ";
     $statement = $pdo->prepare($sql);
     $statement->execute(array(
+    "user_id" => $userId,
+    "id" => $passwordRequestId,
     "token" => $token
     ));
     $requestInfo = $statement->fetch(PDO::FETCH_ASSOC);
-    $_SESSION['user_id_reset_pass'] = $userId;
-    
+    $password = $_POST['password'];
+    $password2 = $_POST['password2'];
+    if($password == $password2)
+    {
+            if($password !="" && $password2 !="")
+    {
+                if(strlen($password)>=8 && strlen($password2)>=8)
+                    {
+        $hashPassword = password_hash($password,PASSWORD_BCRYPT);
+        $insert = $pdo->prepare("update uzytkownik
+            set haslo=:haslo
+            where id_uzytkownik=:id");
+        $insert->bindValue(':haslo', $hashPassword, PDO::PARAM_STR);
+        $insert->bindValue(':id', $userId, PDO::PARAM_STR);
+        $insert->execute();
+        die("<h3>Hasło zostało zmienione.</h3>");
+                    }
+                    else echo "<h3 id='blad'>Hasło musi zawierać przynajmniej 8 znakow</h3>";
+    }
+    else echo "<h3 id='blad'>Podaj hasło!</h3>";
+    }
+    else{
+        echo("<h3 id='blad'>Hasła nie są takie same!</h3>");
+    }
     }
     ?>
 		
