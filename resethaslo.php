@@ -127,7 +127,7 @@ $zalogowany = $_SESSION['valid'];
         $insert->execute();
         die("<h3>Hasło zostało zmienione.</h3>");
                     }
-                    else echo "<h3 id='blad'>Hasło musi zawierać przynajmniej 8 znakow</h3>";
+                    else echo "<h3 id='blad'>Hasło musi zawierać przynajmniej 8 znaków</h3>";
     }
     else echo "<h3 id='blad'>Podaj hasło!</h3>";
     }
