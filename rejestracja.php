@@ -127,7 +127,7 @@ $zalogowany = $_SESSION['valid'];
       mail($email, 'Aktywacja konta', $message, $headers);
       die("<h3>Zarejestrowano pomyślnie! Sprawdź maila w celu aktywacji konta.</h3>");
                     }
-                    else echo "<h3 id='blad'>Hasło musi zawierać przynajmniej 8 znakow</h3>";
+                    else echo "<h3 id='blad'>Hasło musi zawierać przynajmniej 8 znaków</h3>";
             }
             else echo "<h3 id='blad'>Podaj Hasło!</h3>";
       }
