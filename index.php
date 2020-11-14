@@ -21,7 +21,7 @@ $zalogowany = $_SESSION['valid'];
    #jeden {background-color:rgb(36,37,38); padding: 40px; border-radius: 25px; margin: 20px;}
   .btn-info {background-color:#0274be;}
   .btn-info:hover{background-color:#0274be;}
-  img {margin-left: 15px;}
+  img {margin-left: 15px; border: 3px solid #0274be;}
    
   </style>
   
@@ -90,13 +90,13 @@ $zalogowany = $_SESSION['valid'];
 
 <?php
   require  "polaczenie.php";
-  $stmt=$pdo->query("SELECT * FROM produkty");
+  $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria");
   $i=0;
   foreach($stmt as $row){
 
     echo "<div class='col' id='jeden'>";
     echo "<div class='row'>";
-    echo "<img src='xd.png' width='300px' height='300px';>";
+    echo "<img width='300px' height='300px' src='data:image/jpeg;base64,".base64_encode( $row['zdjecie'] )."'/>";
     echo "<div class='col' style='margin-left: 30px;'>";
     echo "<h1>".$row['nazwa_produktu']."</h1>";
     echo "<h5 style='margin-left: 3px'>cena: ".$row['cena_brutto']."zł</h5><br><br>";
