@@ -86,7 +86,18 @@ $zalogowany = $_SESSION['valid'];
     
       <div class="container" style="margin-top: 125px; margin-bottom: 200px;">
       <h1 style="margin: 20px; margin-top: 50px; margin-bottom: 50px;">Produkty: </h1>
-    
+      <h6 style="margin: 20px; margin-top: 50px; margin-bottom: 50px;">Kategoria: 
+      <select name='wkat' onchange="location='#'">
+      <option value='all'>--wybierz--</option>  
+<?php    
+  $kategoria=$pdo->query("SELECT * FROM kategorie");
+  foreach($kategoria as $kat){
+    echo "<option value='".$kat['kategoria']."'>".$kat['kategoria']."</option>";
+  }
+  
+?>    
+      </select>
+      </h6>
 
 <?php
   require  "polaczenie.php";
