@@ -3,7 +3,7 @@
     <?php
     session_start();
     require "polaczenie.php";
-    error_reporting(-1);
+    error_reporting(0);
 $zalogowany = $_SESSION['valid'];
     ?>
   <head>
@@ -97,12 +97,22 @@ $zalogowany = $_SESSION['valid'];
   
 ?>    
       </select>
+        <p>Ilość: 
+        <a href="index.php?ilosc=10&czy_limit=tak"> 10 </a>
+        <a href="index.php?ilosc=20&czy_limit=tak"> 20 </a>
+        <a href="index.php?ilosc=30&czy_limit=tak"> 30 </a>
+        <a href="index.php"> Wszystko </a>
+        </p>
       </h6>
 
 <?php
-  require  "polaczenie.php";
-  $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria");
-  $i=0;
+  if ($_GET['czy_limit']=='tak'){
+  $ilosc=$_GET['ilosc'];
+  $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie LIMIT ".$ilosc."");
+  }
+  else{
+  $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie");
+  }
   foreach($stmt as $row){
 
     echo "<div class='col' id='jeden'>";
