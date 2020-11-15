@@ -90,7 +90,7 @@ $zalogowany = $_SESSION['valid'];
       <select name='wkat' onchange="location='#'">
       <option value='all'>--wybierz--</option>  
 <?php    
-  $kategoria=$pdo->query("SELECT * FROM kategorie");
+  $kategoria=$pdo->query("SELECT * FROM kategorie GROUP BY kategoria ASC");
   foreach($kategoria as $kat){
     echo "<option value='".$kat['kategoria']."'>".$kat['kategoria']."</option>";
   }
