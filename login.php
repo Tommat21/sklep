@@ -14,34 +14,53 @@ if($zalogowany)
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="sidebar.css">
     <title>Sklepik.exe</title>
    
   <style>
-	.bg-primary {background-color:rgb(36,37,38)!important;}
-	.btn-primary{color: white; background-color:rgb(58,59,60); border-color:rgb(58,59,60)}
-	.btn-primary:hover{color: white; background-color:rgb(78,78,79); border-color:rgb(78,78,79)}
-	body {color: white; background-color:rgb(24,25,26);}
-    div#jeden {background-color:rgb(36,37,38); padding: 50px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 25px;}
-	h3 {color: white; line-height: normal}
-	h3#blad{font-style: italic; color: red}
-	label {width: 100px; margin: 5px 0; clear: left;}
-	button#logowanie { margin-left: 108px;}
-	button#rejestracja {font-size: 50px; padding: 20px;}
-	a{font-size: 15px; margin-right: 88px;}
+  .bg-primary {background-color:rgb(36,37,38)!important;}
+  .btn-primary{color: white; background-color:rgb(58,59,60); border-color:rgb(58,59,60)}
+  .btn-primary:hover{color: white; background-color:rgb(78,78,79); border-color:rgb(78,78,79)}
+  body {color: white; background-color:rgb(24,25,26);}
+    div#jeden {background-color:rgb(36,37,38); padding: 50px; margin-top: 18%; border-radius: 25px;}
+  h3 {color: white; line-height: normal}
+  h3#blad{font-style: italic; color: red}
+  label {width: 100px; margin: 5px 0; clear: left;}
+  button#logowanie { margin-left: 108px;}
+  button#rejestracja {font-size: 50px; padding: 20px;}
+  a{font-size: 15px; margin-right: 88px;}
   </style>
-  
-  
-  
-
   
   
   </head>
   <body>
+    
+  <div class="d-flex float-left" style="margin-top: 20%;">
+  
+    <div class="bg-light" id="sidebar">
+      <div class="sidebar-gora">Admin Panel </div>
+        <a href="dodpt.php" class="list-group-item list-group-item-action bg-light">Dodaj Produkt</a>
+        <a href="edypt.php" class="list-group-item list-group-item-action bg-light">Edytuj Produkt</a>
+        <a href="usupt.php" class="list-group-item list-group-item-action bg-light">Usuń Produkt</a>
+        <a href="dodpa.php" class="list-group-item list-group-item-action bg-light">Dodaj Pracownika</a>
+        <a href="edypa.php" class="list-group-item list-group-item-action bg-light">Edytuj Pracownika</a>
+        <a href="usupa.php" class="list-group-item list-group-item-action bg-light">Usuń Pracownika</a>
+    </div>
+  
+ </div> 
      
  <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary">
  <div class="collapse navbar-collapse" id="navbarNavDropdown">
  </div>
   
+  <div class="float-right">
+  
+  <nav class="navbar bg-primary">
+  <button class="btn btn-primary" id="menu-rozwijane">Admin Panel</button>
+  </nav>
+  
+  </div>
+   
   <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
@@ -94,7 +113,7 @@ if($zalogowany)
   
   </nav>
    
-<div id="jeden" class="container">
+<div id="jeden" class="container float-right" style="margin-right: 5%;">
   <div class="row">
     <div class="col-sm">
   
@@ -134,14 +153,14 @@ die("<h3>Użytkownik zalogowany pomyślnie!</h3>");
     
   <h3>
   
-	<form method="post">
-		<label for="email">Email:</label>
-		<input type="email" name="email"><br>
-		<label for="haslo">Hasło:</label>
-		<input type="password" name="haslo">
-		<a href="mailhaslo.php">Zapomniałeś hasła?</a>
-		<button id="logowanie" type="submit" name="login" class="btn btn-primary mb-2">Zaloguj</button>
-	</form>
+  <form method="post">
+    <label for="email">Email:</label>
+    <input type="email" name="email"><br>
+    <label for="haslo">Hasło:</label>
+    <input type="password" name="haslo">
+    <a href="mailhaslo.php">Zapomniałeś hasła?</a>
+    <button id="logowanie" type="submit" name="login" class="btn btn-primary mb-2">Zaloguj</button>
+  </form>
 
   
   </h3>
@@ -159,6 +178,16 @@ die("<h3>Użytkownik zalogowany pomyślnie!</h3>");
       <a class="navbar-brand"> © Copyright by Team Człapski & Wróbel</a>
   </nav>      
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+  <!-- skrypt do panelu bocznego -->
+  <script>
+    $("#menu-rozwijane").click(function(e) {
+      $("#sidebar").toggleClass("toggled");
+    });
+  </script>
+        
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </body>
 </html>

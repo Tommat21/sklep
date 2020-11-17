@@ -1,0 +1,22 @@
+
+#sidebar {
+  width: 240px;
+  margin-left: -240px;
+  text-align: center; 
+  transition: 1s;
+}
+
+#sidebar.toggled {
+  overflow: hidden;
+  margin-left: -1px;
+  text-align: center;
+}
+
+#sidebar .sidebar-gora {
+  background-color:rgb(58,59,60);
+  padding: 14px;
+  font-size: 18px;
+}
+
+}
+
