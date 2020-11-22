@@ -5,6 +5,10 @@
     require "polaczenie.php";
     error_reporting(-1);
 $zalogowany = $_SESSION['valid'];
+if($_SESSION['admin']!=true)
+{
+    header("Location: http://masnyted.ct8.pl/index.php");
+}
     ?>
   <head>
     <meta charset="utf-8">
@@ -108,7 +112,44 @@ $zalogowany = $_SESSION['valid'];
   <?php endif; ?>
   
   </nav>
-   
+   <?php
+   if(isset($_POST['submit']))
+   {
+       $nazwa=$_POST['nazwa'];
+       $opis=$_POST['opis'];
+       $kategoria=$_POST['kategoria'];
+       $producent=$_POST['producent'];
+       $cenan=$_POST['cenan'];
+       $cenab=$_POST['cenab'];
+       $vat=$_POST['vat'];
+       $zdjecie=$_POST['zdjecie'];
+       $producentdodaj=$pdo->prepare("Insert into producenci (producent) values (:producent);");
+       $producentdodaj->bindValue(':producent', $producent, PDO::PARAM_STR);
+       $producentdodaj->execute();
+       $idproducent=$pdo->prepare("Select id_producenta from producenci where producent='".$producent."';");
+       $idproducent->execute();
+       $kategoriadodaj=$pdo->prepare("Insert into kategorie (kategoria) values (:kategoria);");
+       $kategoriadodaj->bindValue(':kategoria', $kategoria, PDO::PARAM_STR);
+       $kategoriadodaj->execute();
+       $idkategorii=$pdo->prepare("Select id_kategorii from kategorie where kategoria='".$kategoria."';");
+       $idkategorii->execute();
+       $produkt=$pdo->prepare("Insert into produkty (id_kategorii,id_producenta,nazwa_produktu,opis,cena_netto,cena_brutto,vat) values (:id_kategorii,:id_producenta,:nazwa,:opis,:cenan,:cenab,:vat);");
+       $produkt->bindValue(':id_kategorii', $idkategorii, PDO::PARAM_STR);
+       $produkt->bindValue(':id_producenta', $idproducent, PDO::PARAM_STR);
+       $produkt->bindValue(':nazwa', $nazwa, PDO::PARAM_STR);
+       $produkt->bindValue(':opis', $opis, PDO::PARAM_STR);
+       $produkt->bindValue(':cenan', $cenan, PDO::PARAM_STR);
+       $produkt->bindValue(':cenab', $cenab, PDO::PARAM_STR);
+       $produkt->bindValue(':vat', $vat, PDO::PARAM_STR);
+       $produkt->execute();
+       $id=$pdo->prepare("Select id_produktu from produkty where id_produktu='".$nazwa."';");
+       $id->execute();
+       $zdjeciedodaj=$pdo->prepare("Insert into galeria (id_produktu,zdjecie) values (:id,:zdjecie);");
+       $zdjeciedodaj->bindValue(':id', $id, PDO::PARAM_STR);
+       $zdjeciedodaj->bindValue(':zdjecie', $zdjecie, PDO::PARAM_STR);
+       $zdjeciedodaj->execute();
+   }
+   ?>
 <div class="container">
   <div id="jeden" class="row">  
     <div class="col-sm">
@@ -131,6 +172,8 @@ $zalogowany = $_SESSION['valid'];
     <input type="text" name="cenab"><br>
 	<label for="vat">VAT:</label>
     <input type="text" name="vat"><br>
+    <label for="file">Zdjęcie:</label>
+    <input type='file' name='zdjecie'><br>
     <button id="zatwierdz" type="submit" name="submit" class="btn btn-primary mb-2">Dodaj</button>
     </form>
     

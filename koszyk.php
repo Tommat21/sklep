@@ -3,7 +3,7 @@
         <?php
     session_start();
     require "polaczenie.php";
-    error_reporting(-1);
+    error_reporting(0);
 $zalogowany = $_SESSION['valid'];
     ?>
   <head>
@@ -23,7 +23,10 @@ $zalogowany = $_SESSION['valid'];
   
   </head>
   <body>
-    
+    <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
  <div class="d-flex float-left" style="margin-top: 20%;">
   
     <div class="bg-light" id="sidebar">
@@ -37,18 +40,25 @@ $zalogowany = $_SESSION['valid'];
     </div>
   
  </div>    
-     
+     <?php
+  }
+     ?>      
  <!--Navbar-->
  <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary">
  <div class="collapse navbar-collapse" id="navbarNavDropdown">
  </div>
   
   <div class="float-right">
-  
+  <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
   <nav class="navbar bg-primary">
   <button class="btn btn-primary" id="menu-rozwijane">Admin Panel</button>
   </nav>
-  
+  <?php
+  }
+     ?> 
   </div>
    
   <div class="float-right">

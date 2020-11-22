@@ -28,9 +28,12 @@ $zalogowany = $_SESSION['valid'];
   
   </head>
   <body>
-    
+    <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
  <div class="d-flex float-left" style="margin-top: 20%;">
-  
+
     <div class="bg-light" id="sidebar">
       <div class="sidebar-gora">Admin Panel </div>
         <a href="dodpt.php" class="list-group-item list-group-item-action bg-light">Dodaj Produkt</a>
@@ -42,18 +45,25 @@ $zalogowany = $_SESSION['valid'];
     </div>
   
  </div> 
-     
+     <?php
+  }
+     ?>
  <!--Navbar-->
  <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary">
  <div class="collapse navbar-collapse" id="navbarNavDropdown">
  </div>
    
   <div class="float-right">
-  
+  <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
   <nav class="navbar bg-primary">
   <button class="btn btn-primary" id="menu-rozwijane">Admin Panel</button>
   </nav>
-  
+      <?php
+  }
+     ?> 
   </div>
   
   <div class="float-right">
@@ -106,8 +116,18 @@ $zalogowany = $_SESSION['valid'];
   <?php endif; ?>
   </nav>
     
-    
+    <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
       <div class="container float-right" style="margin-top: 125px; margin-bottom: 200px; margin-right: 5%;">
+          <?php
+  }else{
+          ?>
+          <div class="container" style="margin-top: 125px; margin-bottom: 200px;">
+              <?php
+  }
+              ?>
       <h1 style="margin: 20px; margin-top: 50px; margin-bottom: 50px;">Produkty: </h1>
       <h6 style="margin: 20px; margin-top: 50px; margin-bottom: 50px;">Kategoria: 
       <select name='wkat' onchange="location='#'">

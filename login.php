@@ -34,20 +34,7 @@ if($zalogowany)
   
   </head>
   <body>
-    
-  <div class="d-flex float-left" style="margin-top: 20%;">
-  
-    <div class="bg-light" id="sidebar">
-      <div class="sidebar-gora">Admin Panel </div>
-        <a href="dodpt.php" class="list-group-item list-group-item-action bg-light">Dodaj Produkt</a>
-        <a href="edypt.php" class="list-group-item list-group-item-action bg-light">Edytuj Produkt</a>
-        <a href="usupt.php" class="list-group-item list-group-item-action bg-light">Usuń Produkt</a>
-        <a href="dodpa.php" class="list-group-item list-group-item-action bg-light">Dodaj Pracownika</a>
-        <a href="edypa.php" class="list-group-item list-group-item-action bg-light">Edytuj Pracownika</a>
-        <a href="usupa.php" class="list-group-item list-group-item-action bg-light">Usuń Pracownika</a>
-    </div>
-  
- </div> 
+     
      
  <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary">
  <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -55,9 +42,6 @@ if($zalogowany)
   
   <div class="float-right">
   
-  <nav class="navbar bg-primary">
-  <button class="btn btn-primary" id="menu-rozwijane">Admin Panel</button>
-  </nav>
   
   </div>
    
@@ -113,7 +97,7 @@ if($zalogowany)
   
   </nav>
    
-<div id="jeden" class="container float-right" style="margin-right: 5%;">
+<div id="jeden" class="container">
   <div class="row">
     <div class="col-sm">
   
@@ -138,6 +122,10 @@ if(!$akt){
   die("<h3>Konto wymaga aktywacji przez kod podany w mailu!</h3>");
 }else{
 $_SESSION['valid'] = true;
+if($_POST['email']=="admin@admin.pl" && $_SESSION['valid'] == true)
+ {
+     $_SESSION['admin']=true;
+ }
 header("Location: http://masnyted.ct8.pl/index.php");
 die("<h3>Użytkownik zalogowany pomyślnie!</h3>");
 }
@@ -182,11 +170,6 @@ die("<h3>Użytkownik zalogowany pomyślnie!</h3>");
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
   <!-- skrypt do panelu bocznego -->
-  <script>
-    $("#menu-rozwijane").click(function(e) {
-      $("#sidebar").toggleClass("toggled");
-    });
-  </script>
         
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </body>

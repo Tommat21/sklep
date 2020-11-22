@@ -5,6 +5,10 @@
     require "polaczenie.php";
     error_reporting(-1);
 $zalogowany = $_SESSION['valid'];
+if($_SESSION['admin']!=true)
+{
+    header("Location: http://masnyted.ct8.pl/index.php");
+}
     ?>
   <head>
     <meta charset="utf-8">

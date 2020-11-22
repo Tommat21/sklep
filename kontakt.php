@@ -3,7 +3,7 @@
         <?php
     session_start();
     require "polaczenie.php";
-    error_reporting(-1);
+    error_reporting(0);
 $zalogowany = $_SESSION['valid'];
     ?>
   <head>
@@ -23,7 +23,10 @@ $zalogowany = $_SESSION['valid'];
   
   </head>
   <body>
-     
+     <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
  <div class="d-flex float-left" style="margin-top: 20%;">
   
     <div class="bg-light" id="sidebar">
@@ -37,17 +40,24 @@ $zalogowany = $_SESSION['valid'];
     </div>
   
  </div>  
-    
+     <?php
+  }
+     ?>    
  <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary">
  <div class="collapse navbar-collapse" id="navbarNavDropdown">
  </div>
   
   <div class="float-right">
-  
+  <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
   <nav class="navbar bg-primary">
   <button class="btn btn-primary" id="menu-rozwijane">Admin Panel</button>
   </nav>
-  
+  <?php
+  }
+     ?> 
   </div>
    
   <div class="float-right">
@@ -101,8 +111,18 @@ $zalogowany = $_SESSION['valid'];
   <?php endif; ?>
   
   </nav>
-
+<?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
 <div id="jeden" class="container float-right" style="margin-right: 5%;">
+   <?php
+  }else{
+    ?>
+    <div id="jeden" class="container">
+        <?php
+  }
+  ?>
  <div class="row">
       <div class="col-xl-6 col-md-6 col-sm-12">
        <div class="row">
