@@ -111,7 +111,37 @@ if($_SESSION['admin']!=true)
   <?php endif; ?>
   
   </nav>
-   
+   <?php
+   if(isset($_POST['submit']))
+   {
+       $login=$_POST['login'];
+       $haslo=$_POST['haslo'];
+       $imie=$_POST['imie'];
+       $nazwisko=$_POST['nazwisko'];
+       $telefon=$_POST['telefon'];
+       $email=$_POST['email'];
+       $data=$_POST['data'];
+       $hashPassword = password_hash($haslo,PASSWORD_BCRYPT);
+       $kod_aktywacyjny = md5(uniqid(rand()));
+       $pracownik=$pdo->prepare("Insert into pracownicy (id_adres,login,haslo,imie,nazwisko,telefon,email,data_zatrudnienia) values (:id_adres,:login,:haslo,:imie,:nazwisko,:telefon,:email,:data_zatrudnienia);");
+       $pracownik->bindValue(':id_adres', 1, PDO::PARAM_INT);
+       $pracownik->bindValue(':login', $login, PDO::PARAM_STR);
+       $pracownik->bindValue(':haslo', $hashPassword, PDO::PARAM_STR);
+       $pracownik->bindValue(':imie', $imie, PDO::PARAM_STR);
+       $pracownik->bindValue(':nazwisko', $nazwisko, PDO::PARAM_STR);
+       $pracownik->bindValue(':telefon', $telefon, PDO::PARAM_STR);
+       $pracownik->bindValue(':email', $email, PDO::PARAM_STR);
+       $pracownik->bindValue(':data', $data, PDO::PARAM_STR);
+       $pracownik->execute();
+       $uzytkownik=$pdo->prepare("Insert into uzytkownik (login,haslo,email,kod_aktywacyjny,aktywny) values (:login,:haslo,:email,:kod_aktywacyjny,:aktywny);");
+       $uzytkownik->bindValue(':login', $login, PDO::PARAM_STR);
+       $uzytkownik->bindValue(':haslo', $hashPassword, PDO::PARAM_STR);
+       $uzytkownik->bindValue(':email', $email, PDO::PARAM_STR);
+       $uzytkownik->bindValue(':kod_aktywacyjny', $kod_aktywacyjny, PDO::PARAM_STR);
+       $uzytkownik->bindValue(':aktywny', 1, PDO::PARAM_INT);
+       $uzytkownik->execute();
+   }
+   ?>
 <div class="container">
   <div id="jeden" class="row">  
     <div class="col-sm">

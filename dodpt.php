@@ -116,6 +116,7 @@ if($_SESSION['admin']!=true)
    if(isset($_POST['submit']))
    {
        $nazwa=$_POST['nazwa'];
+       $ilosc=$_POST['ilosc'];
        $opis=$_POST['opis'];
        $kategoria=$_POST['kategoria'];
        $producent=$_POST['producent'];
@@ -133,10 +134,11 @@ if($_SESSION['admin']!=true)
        $kategoriadodaj->execute();
        $idkategorii=$pdo->prepare("Select id_kategorii from kategorie where kategoria='".$kategoria."';");
        $idkategorii->execute();
-       $produkt=$pdo->prepare("Insert into produkty (id_kategorii,id_producenta,nazwa_produktu,opis,cena_netto,cena_brutto,vat) values (:id_kategorii,:id_producenta,:nazwa,:opis,:cenan,:cenab,:vat);");
+       $produkt=$pdo->prepare("Insert into produkty (id_kategorii,id_producenta,nazwa_produktu,ilosc,opis,cena_netto,cena_brutto,vat) values (:id_kategorii,:id_producenta,:nazwa,:ilosc,:opis,:cenan,:cenab,:vat);");
        $produkt->bindValue(':id_kategorii', $idkategorii, PDO::PARAM_STR);
        $produkt->bindValue(':id_producenta', $idproducent, PDO::PARAM_STR);
        $produkt->bindValue(':nazwa', $nazwa, PDO::PARAM_STR);
+       $produkt->bindValue(':ilosc', $ilosc, PDO::PARAM_STR);
        $produkt->bindValue(':opis', $opis, PDO::PARAM_STR);
        $produkt->bindValue(':cenan', $cenan, PDO::PARAM_STR);
        $produkt->bindValue(':cenab', $cenab, PDO::PARAM_STR);
@@ -160,6 +162,8 @@ if($_SESSION['admin']!=true)
     <form method="post">
 	<label for="nazwa">Nazwa produktu:</label>
     <input type="text" name="nazwa"><br>
+    <label for="ilosc">Ilość:</label>
+    <input type="text" name="ilosc"><br>
 	<label for="opis">Opis:</label>
     <textarea id="opis" name="opis" rows="4"></textarea><br>
     <label for="kategoria">Kategoria:</label>
