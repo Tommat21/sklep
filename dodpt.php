@@ -14,8 +14,8 @@ if($_SESSION['admin']!=true)
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link rel="stylesheet" href="sidebar.css">
-	<title>Sklepik.exe</title>
+  <link rel="stylesheet" href="sidebar.css">
+  <title>Sklepik.exe</title>
    
   <style>
   .bg-primary {background-color:rgb(36,37,38)!important;}
@@ -127,13 +127,17 @@ if($_SESSION['admin']!=true)
        $producentdodaj=$pdo->prepare("Insert into producenci (producent) values (:producent);");
        $producentdodaj->bindValue(':producent', $producent, PDO::PARAM_STR);
        $producentdodaj->execute();
-       $idproducent=$pdo->prepare("Select id_producenta from producenci where producent='".$producent."';");
-       $idproducent->execute();
+       $idproduce=$pdo->prepare("Select id_producenta from producenci where producent='".$producent."';");
+       $idproduce->execute();
+       $idproducen = $idproduce->fetch(PDO::FETCH_ASSOC);
+       $idproducent = $idproducen['id_producenta'];
        $kategoriadodaj=$pdo->prepare("Insert into kategorie (kategoria) values (:kategoria);");
        $kategoriadodaj->bindValue(':kategoria', $kategoria, PDO::PARAM_STR);
        $kategoriadodaj->execute();
-       $idkategorii=$pdo->prepare("Select id_kategorii from kategorie where kategoria='".$kategoria."';");
-       $idkategorii->execute();
+       $idkategor=$pdo->prepare("Select id_kategorii from kategorie where kategoria='".$kategoria."';");
+       $idkategor->execute();
+       $idkategori = $idkategor->fetch(PDO::FETCH_ASSOC);
+       $idkategorii = $idkategori['id_kategorii'];
        $produkt=$pdo->prepare("Insert into produkty (id_kategorii,id_producenta,nazwa_produktu,ilosc,opis,cena_netto,cena_brutto,vat) values (:id_kategorii,:id_producenta,:nazwa,:ilosc,:opis,:cenan,:cenab,:vat);");
        $produkt->bindValue(':id_kategorii', $idkategorii, PDO::PARAM_STR);
        $produkt->bindValue(':id_producenta', $idproducent, PDO::PARAM_STR);
@@ -160,21 +164,21 @@ if($_SESSION['admin']!=true)
     <h1><center>Dodaj produkt: </center></h1><br>
     <h4>
     <form method="post">
-	<label for="nazwa">Nazwa produktu:</label>
+  <label for="nazwa">Nazwa produktu:</label>
     <input type="text" name="nazwa"><br>
     <label for="ilosc">Ilość:</label>
     <input type="text" name="ilosc"><br>
-	<label for="opis">Opis:</label>
+  <label for="opis">Opis:</label>
     <textarea id="opis" name="opis" rows="4"></textarea><br>
     <label for="kategoria">Kategoria:</label>
     <input type="text" name="kategoria"><br>
     <label for="producent">Producent:</label>
     <input type="text" name="producent"><br>
-	<label for="cenan">Cena netto:</label>
+  <label for="cenan">Cena netto:</label>
     <input type="text" name="cenan"><br>
-	<label for="cenab">Cena brutto:</label>
+  <label for="cenab">Cena brutto:</label>
     <input type="text" name="cenab"><br>
-	<label for="vat">VAT:</label>
+  <label for="vat">VAT:</label>
     <input type="text" name="vat"><br>
     <label for="file">Zdjęcie:</label>
     <input type='file' name='zdjecie'><br>
