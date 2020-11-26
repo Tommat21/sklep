@@ -131,8 +131,12 @@ if($_SESSION['admin']!=true)
        $pracownik->bindValue(':nazwisko', $nazwisko, PDO::PARAM_STR);
        $pracownik->bindValue(':telefon', $telefon, PDO::PARAM_STR);
        $pracownik->bindValue(':email', $email, PDO::PARAM_STR);
-       $pracownik->bindValue(':data', $data, PDO::PARAM_STR);
+       $pracownik->bindValue(':data_zatrudnienia', $data, PDO::PARAM_STR);
        $pracownik->execute();
+       if (!$pracownik) {
+    echo "\nPDO::errorInfo():\n";
+    print_r($pdo->errorInfo());
+}
        $uzytkownik=$pdo->prepare("Insert into uzytkownik (login,haslo,email,kod_aktywacyjny,aktywny) values (:login,:haslo,:email,:kod_aktywacyjny,:aktywny);");
        $uzytkownik->bindValue(':login', $login, PDO::PARAM_STR);
        $uzytkownik->bindValue(':haslo', $hashPassword, PDO::PARAM_STR);

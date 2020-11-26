@@ -10,7 +10,7 @@ $znaki2=$pdo->prepare("SET NAMES `utf8` COLLATE `utf8_polish_ci`");
 $znaki->execute();
 $znaki2->execute();
 }catch(PDOException $e){
-echo "Błąd połączenia";
+echo "Błąd połączenia" . $e->getMessage();
 die();
 }
 ?>
