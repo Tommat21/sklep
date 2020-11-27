@@ -123,7 +123,7 @@ if($_SESSION['admin']!=true)
        $cenan=$_POST['cenan'];
        $cenab=$_POST['cenab'];
        $vat=$_POST['vat'];
-       $zdjecie=$_POST['zdjecie'];
+       $zdjecie = file_get_contents($_FILES['zdjecie']['tmp_name']);
        $producentdodaj=$pdo->prepare("Insert into producenci (producent) values (:producent);");
        $producentdodaj->bindValue(':producent', $producent, PDO::PARAM_STR);
        $producentdodaj->execute();
@@ -150,9 +150,11 @@ if($_SESSION['admin']!=true)
        $produkt->execute();
        $id=$pdo->prepare("Select id_produktu from produkty where id_produktu='".$nazwa."';");
        $id->execute();
+       $id1=$id->fetch(PDO::FETCH_ASSOC);
+       $id2=$id1['id_produktu'];
        $zdjeciedodaj=$pdo->prepare("Insert into galeria (id_produktu,zdjecie) values (:id,:zdjecie);");
-       $zdjeciedodaj->bindValue(':id', $id, PDO::PARAM_STR);
-       $zdjeciedodaj->bindValue(':zdjecie', $zdjecie, PDO::PARAM_STR);
+       $zdjeciedodaj->bindValue(':id', $id2, PDO::PARAM_STR);
+       $zdjeciedodaj->bindValue(':zdjecie', $zdjecie, PDO::PARAM_LOB);
        $zdjeciedodaj->execute();
    }
    ?>
@@ -163,7 +165,7 @@ if($_SESSION['admin']!=true)
     
     <h1><center>Dodaj produkt: </center></h1><br>
     <h4>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
   <label for="nazwa">Nazwa produktu:</label>
     <input type="text" name="nazwa"><br>
     <label for="ilosc">Ilość:</label>
