@@ -132,7 +132,7 @@ $zalogowany = $_SESSION['valid'];
     echo "<div class='col' style='margin-left: 30px;'>";
     echo "<br><h1>".$row['nazwa_produktu']."</h1>";
     echo "<h3 style='margin-left: 3px'>cena: ".$row['cena_brutto']."zł</h5><br>";
-    echo "<h4>".$row['opis']."</h4>";
+    echo "<h4 style='min-width: 450px;'>".$row['opis']."</h4>";
   echo "<input type='number' name='ilosc' style='height: 35px; width: 40px; margin-top: 15px;' value=1>";
   echo "<button class='btn btn-info' style='margin-left: 15px; margin-bottom: 5px;'>Dodaj do koszyka</button>";
   echo "<hr style='background-color: white'>";
