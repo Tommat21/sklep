@@ -129,17 +129,14 @@ $zalogowany = $_SESSION['valid'];
   }
               ?>
       <h1 style="margin: 20px; margin-top: 50px; margin-bottom: 50px;">Produkty: </h1>
-      <h6 style="margin: 20px; margin-top: 50px; margin-bottom: 50px;">Kategoria: 
-      <select name='wkat' onchange="location='#'">
-      <option value='all'>--wybierz--</option>  
-<?php    
-  $kategoria=$pdo->query("SELECT * FROM kategorie GROUP BY kategoria ASC");
-  foreach($kategoria as $kat){
-    echo "<option value='".$kat['kategoria']."'>".$kat['kategoria']."</option>";
-  }
-  
-?>    
-      </select>
+      <h6 style="margin: 20px; margin-top: 50px; margin-bottom: 50px;">Wyszukaj:
+          <form action="" method="post">
+              <input type="text" name="szukaj">
+              <input type="submit" name="wyszukaj" value="szukaj">
+          </form>
+          <?php
+          $szukaj=$_POST['szukaj'];
+          ?>
         <p>Ilość: 
         <a href="index.php?ilosc=10&czy_limit=tak"> 10 </a>
         <a href="index.php?ilosc=20&czy_limit=tak"> 20 </a>
@@ -149,12 +146,20 @@ $zalogowany = $_SESSION['valid'];
       </h6>
 
 <?php
-  if ($_GET['czy_limit']=='tak'){
+  if ($_GET['czy_limit']=='tak' && $_POST['wyszukaj']){
   $ilosc=$_GET['ilosc'];
+  $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie where nazwa_produktu like '%$szukaj%' or kategoria like '%$szukaj%' LIMIT ".$ilosc."");
+  }
+  else if($_POST['wyszukaj']){
+  $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie where nazwa_produktu like '%$szukaj%' or kategoria like '%$szukaj%'");
+  }
+  else if($_GET['czy_limit']=='tak')
+  {
   $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie LIMIT ".$ilosc."");
   }
-  else{
-  $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie");
+  else
+  {
+  $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie");   
   }
   foreach($stmt as $row){
 
