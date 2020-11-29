@@ -146,6 +146,22 @@ $zalogowany = $_SESSION['valid'];
       </h6>
 
 <?php
+     
+   if(isset($_POST['kup'])){
+    $czyjest=$pdo->prepare("SELECT id_produktu FROM koszyk WHERE id_produktu=".$_POST['kup']."");
+    $czyjest->execute();
+    if ($czyjest->rowCount()>0)
+    {
+      $dodaj=$pdo->prepare("UPDATE koszyk SET ilosc_kup=ilosc_kup+1 WHERE id_produktu=".$_POST['kup']."");
+      $dodaj->execute();
+    }
+    else{
+    $dodkosz=$pdo->prepare("INSERT INTO koszyk (id_produktu, ilosc_kup) VALUES (".$_POST['kup'].",1)");
+    $dodkosz->execute();
+    }
+    header("Location: koszyk.php");
+  }
+      
   if ($_GET['czy_limit']=='tak' && $_POST['wyszukaj']){
   $ilosc=$_GET['ilosc'];
   $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie where nazwa_produktu like '%$szukaj%' or kategoria like '%$szukaj%' LIMIT ".$ilosc."");
@@ -170,7 +186,9 @@ $zalogowany = $_SESSION['valid'];
     echo "<h1><a style='text-decoration:none; color: white;' href='bigprodukt.php?id=".$row['id_produktu']."'>".$row['nazwa_produktu']."</a></h1>";
     echo "<h5 style='margin-left: 3px'>cena: ".$row['cena_brutto']."zł</h5><br><br>";
     echo "<h4>".$row['opis']."</h4><br><br><br>";
-    echo "<button class='btn btn-info' style='position: absolute; bottom: 15px'>Dodaj do koszyka</button>";
+    echo "<form method='post'>";
+    echo "<button type='submit' name='kup' value='".$row['id_produktu']."' class='btn btn-info' style='position: absolute; bottom: 15px'>Dodaj do koszyka</button>";
+    echo "</form>";
     echo "</div>";
     echo "</div>";
     echo "</div>";

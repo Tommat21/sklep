@@ -19,6 +19,18 @@ $zalogowany = $_SESSION['valid'];
   .btn-primary{color: white; background-color:rgb(58,59,60); border-color:rgb(58,59,60)}
   .btn-primary:hover{color: white; background-color:rgb(78,78,79); border-color:rgb(78,78,79)}
   body {color: white; background-color:rgb(24,25,26);}
+  .btn-info {background-color:#0274be;}
+  .btn-info:hover{background-color:#0274be;}
+  th{background-color:white; color:#0274be}
+  table{
+     border: 1px solid white;
+   text-align: center;
+  }
+  img {border: 3px solid #0274be;}
+  .vertical-center {
+  margin: 0;
+  transform: translateY(17.5%);
+  }
   </style>
   
   </head>
@@ -114,12 +126,54 @@ $zalogowany = $_SESSION['valid'];
   </nav>
 
     
-    <div class="container float-right" style="margin-right: 5%;">
-      
-    </div>
+  <br><br><br><br>
+  
+  <div class="container float-right" style="margin-right: 5%;">
+      <h1 style="margin: 20px; margin-top: 50px; margin-bottom: 50px;">Koszyk: </h1><br>
+    
+    <h4>
+    <?php
+    require "polaczenie.php";
+    if(isset($_POST['usun'])){  
+    
+    $usunkosz=$pdo->prepare("DELETE FROM koszyk WHERE id_produktu = ".$_POST['usun']."");
+    $usunkosz->execute();  
+    
+    }
+    $razem=0;
+    $koszyk = $pdo->query("Select * FROM koszyk Natural Join produkty Natural Join galeria");
+    $count = $koszyk->rowCount();
+    if ($count==0){
+      echo "Brak produktów w koszyku.";
+    }
+    else{
+    echo "<table class='table'>";
+    echo "<tr><th>&nbsp</th><th>&nbsp</th><th>Produkt</th><th>Cena</th><th>Ilość</th><th>Kwota</th></tr>";
+    foreach($koszyk as $row){
       
 
-  <--Stopka-->
+      echo "<tr>";
+      echo "<td class='vertical-center'><form method='post'><button name='usun' value='".$row['id_produktu']."' class='btn btn-primary'>X</button></form></td><td><a style='text-decoration:none; color: white;' href='bigprodukt.php?id=".$row['id_produktu']."'><img width='75px' height='75px' src='data:image/jpeg;base64,".base64_encode( $row['zdjecie'] )."'/></a></td>";
+      echo "<td class='vertical-center'><a style='text-decoration:none; color: white;' href='bigprodukt.php?id=".$row['id_produktu']."'>".$row['nazwa_produktu']."</a></td>";
+      echo "<td class='vertical-center'>".$row['cena_brutto']."zł</td><td class='vertical-center'>".$row['ilosc_kup']."</td><td class='vertical-center'>".$row['ilosc_kup']*$row['cena_brutto']."zł</td>";
+      echo "</tr>";
+
+      $razem+=$row['ilosc_kup']*$row['cena_brutto'];
+    }
+    echo "<tr><td></td><td></td><td></td><td></td><th> RAZEM: </th><th>".$razem."zł</th></tr>";
+    echo "</table>";
+    echo "<a href='zamowienie.php'><button class='btn btn-info' style='float: right; width: 360px; height: 50px;'><b>Przejdź do kasy</b></button></a>";
+
+    }
+    ?>
+    </h4>
+    
+
+ 
+</div>
+      
+
+  <!--Stopka-->
   <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-primary">
       <a class="navbar-brand"> © Copyright by Team Człapski & Wróbel</a>
   </nav>      

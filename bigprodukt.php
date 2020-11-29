@@ -124,20 +124,36 @@ $zalogowany = $_SESSION['valid'];
     
 <?php
   $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie Natural Join producenci WHERE id_produktu=".$_GET['id']."");
+  
+  if(isset($_POST['kup'])){
+    $czyjest=$pdo->prepare("SELECT id_produktu FROM koszyk WHERE id_produktu=".$_POST['kup']."");
+    $czyjest->execute();
+    if ($czyjest->rowCount()>0)
+    {
+      $dodaj=$pdo->prepare("UPDATE koszyk SET ilosc_kup=ilosc_kup+".$_POST['ilosc']." WHERE id_produktu=".$_POST['kup']."");
+      $dodaj->execute();
+    }
+    else{
+    $dodkosz=$pdo->prepare("INSERT INTO koszyk (id_produktu, ilosc_kup) VALUES (".$_POST['kup'].",".$_POST['ilosc'].")");
+    $dodkosz->execute();
+    }
+    header("Location: koszyk.php");
+  }
+  
   foreach($stmt as $row){
     
     echo "<div class='col' id='jeden'>";
     echo "<div class='row'>";
-  echo "<img width='512px' height='512px' src='data:image/jpeg;base64,".base64_encode( $row['zdjecie'] )."'/>";
+    echo "<img width='512px' height='512px' src='data:image/jpeg;base64,".base64_encode( $row['zdjecie'] )."'/>";
     echo "<div class='col' style='margin-left: 30px;'>";
     echo "<br><h1>".$row['nazwa_produktu']."</h1>";
     echo "<h3 style='margin-left: 3px'>cena: ".$row['cena_brutto']."zł</h5><br>";
     echo "<h4 style='min-width: 450px;'>".$row['opis']."</h4>";
-  echo "<input type='number' name='ilosc' style='height: 35px; width: 40px; margin-top: 15px;' value=1>";
-  echo "<button class='btn btn-info' style='margin-left: 15px; margin-bottom: 5px;'>Dodaj do koszyka</button>";
-  echo "<hr style='background-color: white'>";
-  echo "<h6>Kategoria: ".$row['kategoria'];
-  echo "<h6>Producent: ".$row['producent'];
+    echo "<form method='post'><input type='number' name='ilosc' style='height: 35px; width: 40px; margin-top: 15px;' value=1>";
+    echo "<button name='kup' value='".$row['id_produktu']."' class='btn btn-info' style='margin-left: 15px; margin-bottom: 5px;'>Dodaj do koszyka</button></form>";
+    echo "<hr style='background-color: white'>";
+    echo "<h6>Kategoria: ".$row['kategoria'];
+    echo "<h6>Producent: ".$row['producent'];
     echo "</div>";
     echo "</div>";
     echo "</div>";
