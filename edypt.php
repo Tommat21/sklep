@@ -111,7 +111,46 @@ if($_SESSION['admin']!=true)
   <?php endif; ?>
   
   </nav>
-   
+  <?php
+  $szukaj=filter_input(INPUT_POST, 'search');
+  if(isset($_POST['submit']))
+  {
+  $wyszuk=$pdo->query("Select * from produkty where nazwa_produktu='".$szukaj."'");
+  $wyszukaj=$wyszuk->fetch(PDO::FETCH_ASSOC);
+  $idkategorii=$wyszukaj['id_kategorii'];
+  $idproducenta=$wyszukaj['id_producenta'];
+  $nazwa=$wyszukaj['nazwa_produktu'];
+  $ilosc=$wyszukaj['ilosc'];
+  $opis=$wyszukaj['opis'];
+  $cenanetto=$wyszukaj['cena_netto'];
+  $cenabrutto=$wyszukaj['cena_brutto'];
+  $vat=$wyszukaj['vat'];
+  $szukajkategor=$pdo->query("Select * from kategorie where id_kategorii='".$idkategorii."'");
+  $szukajkategori=$szukajkategor->fetch(PDO::FETCH_ASSOC);
+  $kategoria=$szukajkategori['kategoria'];
+  $szukajproducent=$pdo->query("Select * from producenci where id_producenta='".$idproducenta."'");
+  $szukajproducenta=$szukajproducent->fetch(PDO::FETCH_ASSOC);
+  $producent=$szukajproducenta['producent'];
+  }
+  if(isset($_POST['edytuj']))
+  {
+  $wyszuk=$pdo->query("Select * from produkty where nazwa_produktu='".$szukaj."'");
+  $wyszukaj=$wyszuk->fetch(PDO::FETCH_ASSOC);
+  $idkategorii=$wyszukaj['id_kategorii'];
+  $idproducenta=$wyszukaj['id_producenta'];
+  $nazwa=$_POST['nazwa'];
+  $ilosc=$_POST['ilosc'];
+  $opis=$_POST['opis'];
+  $kategoria=$_POST['kategoria'];
+  $producent=$_POST['producent'];
+  $cenan=$_POST['cenan'];
+  $cenab=$_POST['cenab'];
+  $vat=$_POST['vat'];
+  $edytuj=$pdo->query("Update produkty set nazwa_produktu='".$nazwa."', ilosc='".$ilosc."', opis='".$opis."', cena_netto='".$cenan."', cena_brutto='".$cenab."', vat='".$vat."' where nazwa_produktu='".$szukaj."'");
+  $edytujkategorie=$pdo->query("Update kategorie set kategoria='".$kategoria."' where id_kategorii='".$idkategorii."'");
+  $edytujproducenta=$pdo->query("Update producenci set producent='".$producent."'where id_producenta='".$idproducenta."'");
+  }
+  ?>
 <div class="container">
   <div id="jeden" class="row">  
     <div class="col-sm">
@@ -119,11 +158,42 @@ if($_SESSION['admin']!=true)
     
     <h1><center>Wpisz nazwe produktu, którego chcesz edytować: </center></h1><br><br>
     <h4>
+        <?php
+        $wyszuk=$pdo->query("Select * from produkty where nazwa_produktu='".$szukaj."'");
+        $count = $wyszuk->rowCount();
+        if($count>0)
+        {
+        ?>
+    <form method="post">
+  <label for="nazwa">Nazwa produktu:</label>
+    <input type="text" name="nazwa" value="<?php echo $nazwa ?>"><br>
+    <label for="ilosc">Ilość:</label>
+    <input type="text" name="ilosc" value="<?php echo $ilosc ?>"><br>
+  <label for="opis">Opis:</label>
+    <textarea id="opis" name="opis" rows="4"><?php echo $opis ?></textarea><br>
+    <label for="kategoria">Kategoria:</label>
+    <input type="text" name="kategoria" value="<?php echo $kategoria ?>"><br>
+    <label for="producent">Producent:</label>
+    <input type="text" name="producent" value="<?php echo $producent ?>"><br>
+  <label for="cenan">Cena netto:</label>
+    <input type="text" name="cenan" value="<?php echo $cenanetto ?>"><br>
+  <label for="cenab">Cena brutto:</label>
+    <input type="text" name="cenab" value="<?php echo $cenabrutto ?>"><br>
+  <label for="vat">VAT:</label>
+    <input type="text" name="vat" value="<?php echo $vat ?>"><br>
+    <button id="zatwierdz" type="submit" name="edytuj" class="btn btn-primary mb-2">Edytuj</button>
+    </form>
+    <?php
+        }else{
+    ?>
     <form method="post">
 	<label style="margin-left: 40px;" for="search">Nazwa produktu:</label>
     <input type="text" name="search"><br>
-    <button id="zatwierdz" type="submit" name="submit" class="btn btn-primary mb-2">Edytuj</button>
+    <button id="zatwierdz" type="submit" name="submit" class="btn btn-primary mb-2">Szukaj</button>
     </form>
+    <?php
+        }
+    ?>
     
     </h4>
 

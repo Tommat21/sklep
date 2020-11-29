@@ -123,7 +123,7 @@ if($_SESSION['admin']!=true)
        $cenan=$_POST['cenan'];
        $cenab=$_POST['cenab'];
        $vat=$_POST['vat'];
-       $zdjecie = file_get_contents($_FILES['zdjecie']['tmp_name']);
+       $zdjecie = addslashes(file_get_contents($_FILES['zdjecie']['tmp_name']));
        $producentdodaj=$pdo->prepare("Insert into producenci (producent) values (:producent);");
        $producentdodaj->bindValue(':producent', $producent, PDO::PARAM_STR);
        $producentdodaj->execute();
