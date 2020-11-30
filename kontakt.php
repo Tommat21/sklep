@@ -131,21 +131,32 @@ $zalogowany = $_SESSION['valid'];
      <br><br>
      </h1>
      </div>
-     
+     <?php
+     if(isset($_POST['wyslij']))
+     {
+         $email=$_POST['email'];
+         $tresc=htmlspecialchars($_POST['tresc']);
+         $message=$tresc;
+         $headers = 'From: '.$email.'' . "\r\n" .
+         'Reply-To: '.$email.'' . "\r\n";
+         mail('masnyted@masnyted.ct8.pl', 'Kontakt', $message, $headers);
+         die("Email został wysłany");
+     }
+     ?>
 <form>
   <div class="col-8">  
   <div class="form-group">
       <label for="exampleFormControlInput1">Email: </label>
-      <input type="email" class="form-control" id="exampleFormControlInput1">
+      <input type="email" name="email" class="form-control" id="exampleFormControlInput1">
   </div>
          
   <div class="form-group">
       <label for="exampleFormControlTextarea1">Treść: </label>
-      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      <textarea class="form-control" name="tresc" id="exampleFormControlTextarea1" rows="3"></textarea>
   </div>
   </div>
       <div class="col-auto">
-      <button type="submit" class="btn btn-primary mb-2">Wyślij</button>
+      <button type="submit" name="wyslij" class="btn btn-primary mb-2">Wyślij</button>
       </div>
 </form>
 
