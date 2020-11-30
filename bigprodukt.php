@@ -124,17 +124,18 @@ $zalogowany = $_SESSION['valid'];
     
 <?php
   $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie Natural Join producenci WHERE id_produktu=".$_GET['id']."");
-  
+  $iduzytkownik=$_SESSION['iduzytkownik'];
+  $ilosc=$_POST['ilosc'];
   if(isset($_POST['kup'])){
-    $czyjest=$pdo->prepare("SELECT id_produktu FROM koszyk WHERE id_produktu=".$_POST['kup']."");
+    $czyjest=$pdo->prepare("SELECT id_produktu FROM koszyk WHERE id_produktu=".$_POST['kup']." and id_uzytkownik=".$iduzytkownik."");
     $czyjest->execute();
     if ($czyjest->rowCount()>0)
     {
-      $dodaj=$pdo->prepare("UPDATE koszyk SET ilosc_kup=ilosc_kup+".$_POST['ilosc']." WHERE id_produktu=".$_POST['kup']."");
+      $dodaj=$pdo->prepare("UPDATE koszyk SET ilosc_kup=ilosc_kup+$ilosc WHERE id_produktu=".$_POST['kup']." and id_uzytkownik=".$iduzytkownik."");
       $dodaj->execute();
     }
     else{
-    $dodkosz=$pdo->prepare("INSERT INTO koszyk (id_produktu, ilosc_kup) VALUES (".$_POST['kup'].",".$_POST['ilosc'].")");
+    $dodkosz=$pdo->prepare("INSERT INTO koszyk (id_uzytkownik, id_produktu, ilosc_kup) VALUES (".$iduzytkownik.",".$_POST['kup'].",".$ilosc.")");
     $dodkosz->execute();
     }
     header("Location: koszyk.php");
