@@ -123,6 +123,9 @@ if($_SESSION['admin']!=true)
        $data=$_POST['data'];
        $hashPassword = password_hash($haslo,PASSWORD_BCRYPT);
        $kod_aktywacyjny = md5(uniqid(rand()));
+       $pracowniksprawdz=$pdo->query("Select * from pracownicy where imie='".$imie."' and nazwisko='".$nazwisko."' and telefon='".$telefon."';");
+       if($pracowniksprawdz->rowCount()<1)
+       {
        $pracownik=$pdo->prepare("Insert into pracownicy (id_adres,login,haslo,imie,nazwisko,telefon,email,data_zatrudnienia) values (:id_adres,:login,:haslo,:imie,:nazwisko,:telefon,:email,:data_zatrudnienia);");
        $pracownik->bindValue(':id_adres', 1, PDO::PARAM_INT);
        $pracownik->bindValue(':login', $login, PDO::PARAM_STR);
@@ -144,6 +147,7 @@ if($_SESSION['admin']!=true)
        $uzytkownik->bindValue(':kod_aktywacyjny', $kod_aktywacyjny, PDO::PARAM_STR);
        $uzytkownik->bindValue(':aktywny', 1, PDO::PARAM_INT);
        $uzytkownik->execute();
+       }
    }
    ?>
 <div class="container">
