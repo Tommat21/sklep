@@ -6,7 +6,7 @@
     error_reporting(-1);
 $zalogowany = $_SESSION['valid'];
 
-	  ?>
+    ?>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,7 +19,7 @@ $zalogowany = $_SESSION['valid'];
   .btn-primary{color: white; background-color:rgb(58,59,60); border-color:rgb(58,59,60)}
   .btn-primary:hover{color: white; background-color:rgb(78,78,79); border-color:rgb(78,78,79)}
   body {color: white; background-color:rgb(24,25,26);}
-    div#jeden {background-color:rgb(36,37,38); padding: 50px; margin-top: 15%; border-radius: 25px;}
+    div#jeden {background-color:rgb(36,37,38); padding: 50px; margin-top: 7.5%; border-radius: 25px;}
   h3 {color: white; line-height: normal}
   h3#blad{font-style: italic; color: red}
   label {width: 100px; margin-left: 20px; margin: 5px 0; clear: left;}
@@ -127,10 +127,14 @@ $zalogowany = $_SESSION['valid'];
     <input type="text" name="nazwisko"><br>
     <label for="telefon">Telefon:</label><br>
     <input type="text" name="telefon"><br>
-	<label for="email">Email:</label><br>
+    <label for="email">Email:</label><br>
     <input type="email" name="email"><br>
-	<label for="adres">Adres:</label><br>
+    <label for="adres">Adres:</label><br>
     <input type="text" name="adres"><br>
+    <label for="miasto">Miasto:</label><br>
+    <input type="text" name="miasto"><br>
+    <label for="kp">Poczta:</label><br>
+    <input type="text" name="kp"><br>
   </form>
 
   
@@ -140,30 +144,30 @@ $zalogowany = $_SESSION['valid'];
   
     <div id="jeden" class="col-sm" style="margin-left: 5%; border: 2px solid white;">
      <h1>Twoje zamówienie: <br><br></h1>
-	 <h4> 
+   <h4> 
        <?php
-	   $razem=0;
-	   $zam=$pdo->query("Select * FROM koszyk Natural Join produkty");
-	   echo "<table class='table'>";
-	   echo "<tr><th>Produkt</th><th>Kwota</th></tr>";
-	   foreach($zam as $row){	 
-	   echo "<tr>";
-	   echo "<td>".$row['nazwa_produktu']." x <b>".$row['ilosc_kup']."</b></td><td>".$row['ilosc_kup']*$row['cena_brutto']."zł</td>";
-	   echo "</tr>";
-	   $razem+=$row['ilosc_kup']*$row['cena_brutto'];
-	   }
-	   echo	"<tr><td> Suma: </td><td>".$razem."zł</td></tr>";   
-	   echo "</table>";
-	   echo "<hr style='background-color: white; margin-top: -17.5px;'>";
-	   echo "<button class='btn btn-info' style='width: 450px; height: 50px;'><b>Kup i zapłać</b></button>";
-	  	   
-	   
-	   ?>
-	   </h4>
+     $razem=0;
+     $zam=$pdo->query("Select * FROM koszyk Natural Join produkty");
+     echo "<table class='table'>";
+     echo "<tr><th>Produkt</th><th>Kwota</th></tr>";
+     foreach($zam as $row){   
+     echo "<tr>";
+     echo "<td>".$row['nazwa_produktu']." x <b>".$row['ilosc_kup']."</b></td><td>".$row['ilosc_kup']*$row['cena_brutto']."zł</td>";
+     echo "</tr>";
+     $razem+=$row['ilosc_kup']*$row['cena_brutto'];
+     }
+     echo  "<tr><td> Suma: </td><td>".$razem."zł</td></tr>";   
+     echo "</table>";
+     echo "<hr style='background-color: white; margin-top: -17.5px;'>";
+     echo "<button class='btn btn-info' style='width: 450px; height: 50px;'><b>Kup i zapłać</b></button>";
+         
+     
+     ?>
+     </h4>
     </div>
   </div>
 </div>
-
+<br><br><br><br>
   <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-primary">
       <a class="navbar-brand"> © Copyright by Team Człapski & Wróbel</a>
   </nav>      
