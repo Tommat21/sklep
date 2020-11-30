@@ -124,20 +124,31 @@ if($_SESSION['admin']!=true)
        $cenab=$_POST['cenab'];
        $vat=$_POST['vat'];
        $zdjecie = addslashes(file_get_contents($_FILES['zdjecie']['tmp_name']));
+       $producentsprawdz=$pdo->query("Select * from producenci where producent='".$producent."';");
+       if($producentsprawdz->rowCount()<1)
+       {
        $producentdodaj=$pdo->prepare("Insert into producenci (producent) values (:producent);");
        $producentdodaj->bindValue(':producent', $producent, PDO::PARAM_STR);
        $producentdodaj->execute();
+       }
        $idproduce=$pdo->prepare("Select id_producenta from producenci where producent='".$producent."';");
        $idproduce->execute();
        $idproducen = $idproduce->fetch(PDO::FETCH_ASSOC);
        $idproducent = $idproducen['id_producenta'];
+       $kategoriasprawdz=$pdo->query("Select * from kategorie where kategoria='".$kategoria."';");
+       if ($kategoriasprawdz->rowCount()<1)
+       {
        $kategoriadodaj=$pdo->prepare("Insert into kategorie (kategoria) values (:kategoria);");
        $kategoriadodaj->bindValue(':kategoria', $kategoria, PDO::PARAM_STR);
        $kategoriadodaj->execute();
+       }
        $idkategor=$pdo->prepare("Select id_kategorii from kategorie where kategoria='".$kategoria."';");
        $idkategor->execute();
        $idkategori = $idkategor->fetch(PDO::FETCH_ASSOC);
        $idkategorii = $idkategori['id_kategorii'];
+       $produktsprawdz=$pdo->query("Select * from produkty where nazwa_produktu='".$nazwa."';");
+       if($produktsprawdz->rowCount()<1)
+       {
        $produkt=$pdo->prepare("Insert into produkty (id_kategorii,id_producenta,nazwa_produktu,ilosc,opis,cena_netto,cena_brutto,vat) values (:id_kategorii,:id_producenta,:nazwa,:ilosc,:opis,:cenan,:cenab,:vat);");
        $produkt->bindValue(':id_kategorii', $idkategorii, PDO::PARAM_STR);
        $produkt->bindValue(':id_producenta', $idproducent, PDO::PARAM_STR);
@@ -148,6 +159,9 @@ if($_SESSION['admin']!=true)
        $produkt->bindValue(':cenab', $cenab, PDO::PARAM_STR);
        $produkt->bindValue(':vat', $vat, PDO::PARAM_STR);
        $produkt->execute();
+       }else{
+       $produkt=$pdo->query("Update produkty set ilosc=ilosc+1 where nazwa_produktu='".$nazwa."';");    
+       }
        $id=$pdo->prepare("Select id_produktu from produkty where id_produktu='".$nazwa."';");
        $id->execute();
        $id1=$id->fetch(PDO::FETCH_ASSOC);
