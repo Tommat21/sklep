@@ -129,6 +129,8 @@ $zalogowany = $_SESSION['valid'];
     <input type="text" name="telefon"><br>
 	<label for="email">Email:</label><br>
     <input type="email" name="email"><br>
+	<label for="adres">Adres:</label><br>
+    <input type="text" name="adres"><br>
   </form>
 
   
