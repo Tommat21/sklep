@@ -135,6 +135,10 @@ $zalogowany = $_SESSION['valid'];
     <?php
     require "polaczenie.php";
     $iduzytkownik=$_SESSION['iduzytkownik'];
+    if(!$iduzytkownik)
+    {
+        die("Musisz być zalogowany aby dokonać zakupów");
+    }
     if(isset($_POST['usun'])){  
     
     $usunkosz=$pdo->prepare("DELETE FROM koszyk WHERE id_produktu = ".$_POST['usun']." and id_uzytkownik=".$iduzytkownik."");
