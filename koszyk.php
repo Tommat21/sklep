@@ -134,14 +134,15 @@ $zalogowany = $_SESSION['valid'];
     <h4>
     <?php
     require "polaczenie.php";
+    $iduzytkownik=$_SESSION['iduzytkownik'];
     if(isset($_POST['usun'])){  
     
-    $usunkosz=$pdo->prepare("DELETE FROM koszyk WHERE id_produktu = ".$_POST['usun']."");
+    $usunkosz=$pdo->prepare("DELETE FROM koszyk WHERE id_produktu = ".$_POST['usun']." and id_uzytkownik=".$iduzytkownik."");
     $usunkosz->execute();  
     
     }
     $razem=0;
-    $koszyk = $pdo->query("Select * FROM koszyk Natural Join produkty Natural Join galeria");
+    $koszyk = $pdo->query("Select * FROM koszyk Natural Join produkty Natural Join galeria where id_uzytkownik=".$iduzytkownik."");
     $count = $koszyk->rowCount();
     if ($count==0){
       echo "Brak produktów w koszyku.";

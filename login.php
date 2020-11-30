@@ -114,6 +114,7 @@ if(isset($_POST['login']))
  $spr->bindValue(':email', $email, PDO::PARAM_STR);
  $spr->execute();
  $akt = $spr->fetch(PDO::FETCH_ASSOC);
+ $_SESSION['iduzytkownik']=$akt['id_uzytkownik'];
  if($user)
 {
  if(password_verify($haslo,$user['haslo']))

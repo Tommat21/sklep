@@ -3,7 +3,7 @@
 <?php
     session_start();
     require "polaczenie.php";
-    error_reporting(-1);
+    error_reporting(0);
 $zalogowany = $_SESSION['valid'];
 
     ?>
@@ -32,7 +32,10 @@ $zalogowany = $_SESSION['valid'];
   
   </head>
   <body>
-    
+    <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
   <div class="d-flex float-left" style="margin-top: 20%;">
   
     <div class="bg-light" id="sidebar">
@@ -46,17 +49,24 @@ $zalogowany = $_SESSION['valid'];
     </div>
   
  </div> 
-     
+     <?php
+  }
+     ?> 
  <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary">
  <div class="collapse navbar-collapse" id="navbarNavDropdown">
  </div>
   
   <div class="float-right">
-  
+  <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
   <nav class="navbar bg-primary">
   <button class="btn btn-primary" id="menu-rozwijane">Admin Panel</button>
   </nav>
-  
+  <?php
+  }
+     ?> 
   </div>
    
   <div class="float-right">
@@ -146,8 +156,9 @@ $zalogowany = $_SESSION['valid'];
      <h1>Twoje zamówienie: <br><br></h1>
    <h4> 
        <?php
+     $iduzytkownik=$_SESSION['iduzytkownik'];
      $razem=0;
-     $zam=$pdo->query("Select * FROM koszyk Natural Join produkty");
+     $zam=$pdo->query("Select * FROM koszyk Natural Join produkty where id_uzytkownik=".$iduzytkownik."");
      echo "<table class='table'>";
      echo "<tr><th>Produkt</th><th>Kwota</th></tr>";
      foreach($zam as $row){   
