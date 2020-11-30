@@ -120,14 +120,25 @@ if($_SESSION['admin']!=true)
        $nazwisko=$_POST['nazwisko'];
        $telefon=$_POST['telefon'];
        $email=$_POST['email'];
+       $adres=$_POST['adres'];
+       $miasto=$_POST['miasto'];
+       $poczta=$_POST['poczta'];
        $data=$_POST['data'];
        $hashPassword = password_hash($haslo,PASSWORD_BCRYPT);
        $kod_aktywacyjny = md5(uniqid(rand()));
+       $adressprawdz=$pdo->query("Select * from adres where adres='".$adres."' and miasto='".$miasto."' and poczta='".$poczta."';");
+       if($adressprawdz->rowCount()<1)
+       {
+       $adresdodaj=$pdo->query("Insert into adres (adres,miasto,poczta) values('".$adres."','".$miasto."','".$poczta."');");
+       }
+       $idadr=$pdo->query("Select * from adres where adres='".$adres."' and miasto='".$miasto."' and poczta='".$poczta."';");
+       $idadre=$idadr->fetch(PDO::FETCH_ASSOC);
+       $idadres=$idadre['id_adres'];
        $pracowniksprawdz=$pdo->query("Select * from pracownicy where imie='".$imie."' and nazwisko='".$nazwisko."' and telefon='".$telefon."';");
        if($pracowniksprawdz->rowCount()<1)
        {
        $pracownik=$pdo->prepare("Insert into pracownicy (id_adres,login,haslo,imie,nazwisko,telefon,email,data_zatrudnienia) values (:id_adres,:login,:haslo,:imie,:nazwisko,:telefon,:email,:data_zatrudnienia);");
-       $pracownik->bindValue(':id_adres', 1, PDO::PARAM_INT);
+       $pracownik->bindValue(':id_adres', $idadres, PDO::PARAM_INT);
        $pracownik->bindValue(':login', $login, PDO::PARAM_STR);
        $pracownik->bindValue(':haslo', $hashPassword, PDO::PARAM_STR);
        $pracownik->bindValue(':imie', $imie, PDO::PARAM_STR);
@@ -170,6 +181,12 @@ if($_SESSION['admin']!=true)
     <input type="text" name="telefon"><br>
 	<label for="email">Email:</label>
     <input type="email" name="email"><br>
+    <label for="adres">Adres:</label>
+    <input type="text" name="adres"><br>
+    <label for="miasto">Miasto:</label>
+    <input type="text" name="miasto"><br>
+    <label for="poczta">Poczta:</label>
+    <input type="text" name="poczta"><br>
 	<label for="data">Zatrudniony:</label>
     <input style="width: 263px;" type="date" name="data"><br>
     <button id="zatwierdz" type="submit" name="submit" class="btn btn-primary mb-2">Dodaj</button>

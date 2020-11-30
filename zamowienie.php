@@ -158,7 +158,7 @@ $zalogowany = $_SESSION['valid'];
        <?php
      $iduzytkownik=$_SESSION['iduzytkownik'];
      $razem=0;
-     $zam=$pdo->query("Select * FROM koszyk Natural Join produkty where id_uzytkownik=".$iduzytkownik."");
+     $zam=$pdo->query("Select * FROM koszyk Natural Join produkty where id_uzytkownik='".$iduzytkownik."'");
      echo "<table class='table'>";
      echo "<tr><th>Produkt</th><th>Kwota</th></tr>";
      foreach($zam as $row){   
@@ -171,7 +171,7 @@ $zalogowany = $_SESSION['valid'];
      echo "</table>";
      echo "<hr style='background-color: white; margin-top: -17.5px;'>";
      echo "<button class='btn btn-info' style='width: 450px; height: 50px;'><b>Kup i zapłać</b></button>";
-         
+
      
      ?>
      </h4>
