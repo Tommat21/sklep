@@ -170,8 +170,38 @@ $zalogowany = $_SESSION['valid'];
      echo  "<tr><td> Suma: </td><td>".$razem."zł</td></tr>";   
      echo "</table>";
      echo "<hr style='background-color: white; margin-top: -17.5px;'>";
-     echo "<button class='btn btn-info' style='width: 450px; height: 50px;'><b>Kup i zapłać</b></button>";
-
+     echo "<button class='btn btn-info' name='zaplac' style='width: 450px; height: 50px;'><b>Kup i zapłać</b></button>";
+     if(isset($_POST['zaplac']))
+     {
+         $imie=$_POST['imie'];
+         $nazwisko=$_POST['nazwisko'];
+         $telefon=$_POST['telefon'];
+         $email=$_POST['email'];
+         $adres=$_POST['adres'];
+         $miasto=$_POST['miasto'];
+         $poczta=$_POST['kp'];
+         $sprawdzadres=$pdo->query("Select * from adres where adres='".$adres."' and miasto='".$miasto."' and poczta='".$poczta."';");
+         if($sprawdzadres->rowCount()<1)
+         {
+         $adresdodaj=$pdo->query("Insert into adres (adres,miasto,poczta) values('".$adres."','".$miasto."','".$poczta."');");
+         }
+         $idadr=$pdo->query("Select * from adres where adres='".$adres."' and miasto='".$miasto."' and poczta='".$poczta."';");
+         $idadre=$idadr->fetch(PDO::FETCH_ASSOC);
+         $idadres=$idadre['id_adres'];
+         $sprawdzklienta=$pdo->query("Select * from klienci where id_uzytkownik='".$iduzytkownik."';");
+         if($sprawdzklienta->rowCount()<1)
+         {
+         $dodajklienta=$pdo->query("Insert into klienci (id_adres,id_uzytkownik,imie,nazwisko,telefon,email) values('".$idadres."','".$iduzytkownik."','".$imie."','".$nazwisko."','".$telefon."','".$email."') ;");
+         }
+         $idklien=$pdo->query("Select * from klienci where id_uztkownik='".$iduzytkownik."';");
+         $idklient=$idklien->fetch(PDO::FETCH_ASSOC);
+         $idklienta=$idklient['id_klienta'];
+         $produkty=$pdo->query("Select * from koszyk where id_uzytkownik='".$iduzytkownik."';");
+         foreach($produkty as $row)
+         {
+         
+         }
+     }
      
      ?>
      </h4>
