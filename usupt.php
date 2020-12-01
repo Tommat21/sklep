@@ -111,7 +111,14 @@ if($_SESSION['admin']!=true)
   <?php endif; ?>
   
   </nav>
-   
+   <?php
+   $nazwa=$_POST['search'];
+   $idproduk=$pdo->query("Select * from produkty where nazwa_produktu='".$nazwa."';");
+   $idprodukt=$idproduk->fetch(PDO::FETCH_ASSOC);
+   $idproduktu=$idprodukt['id_produktu'];
+   $usunprodukt=$pdo->query("Delete from produkty where nazwa_produktu='".$nazwa."';");
+   $usunprodukt1=$pdo->query("Delete from koszyk where id_produktu='".$idproduktu."';");
+   ?>
 <div class="container">
   <div id="jeden" class="row">  
     <div class="col-sm">

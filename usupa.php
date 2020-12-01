@@ -111,7 +111,11 @@ if($_SESSION['admin']!=true)
   <?php endif; ?>
   
   </nav>
-   
+   <?php
+   $login=$_POST['search'];
+   $usunpracownika=$pdo->query("Delete from pracownicy where login='".$login."';");
+   $usunpracownika1=$pdo->query("Delete from uzytkownik where login='".$login."';");
+   ?>
 <div class="container">
   <div id="jeden" class="row">  
     <div class="col-sm">
