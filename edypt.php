@@ -146,9 +146,9 @@ if($_SESSION['admin']!=true)
   $cenan=$_POST['cenan'];
   $cenab=$_POST['cenab'];
   $vat=$_POST['vat'];
-  $edytuj=$pdo->query("Update produkty set nazwa_produktu='".$nazwa."', ilosc='".$ilosc."', opis='".$opis."', cena_netto='".$cenan."', cena_brutto='".$cenab."', vat='".$vat."' where nazwa_produktu='".$szukaj."'");
-  $edytujkategorie=$pdo->query("Update kategorie set kategoria='".$kategoria."' where id_kategorii='".$idkategorii."'");
-  $edytujproducenta=$pdo->query("Update producenci set producent='".$producent."'where id_producenta='".$idproducenta."'");
+  $edytuj=$pdo->query("Update produkty set nazwa_produktu=".$nazwa.", ilosc=".$ilosc.", opis=".$opis.", cena_netto=".$cenan.", cena_brutto=".$cenab.", vat=".$vat." where nazwa_produktu=".$szukaj.";");
+  $edytujkategorie=$pdo->query("Update kategorie set kategoria=".$kategoria." where id_kategorii=".$idkategorii.";");
+  $edytujproducenta=$pdo->query("Update producenci set producent=".$producent." where id_producenta=".$idproducenta.";");
   }
   ?>
 <div class="container">

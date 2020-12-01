@@ -144,7 +144,8 @@ $zalogowany = $_SESSION['valid'];
     <label for="miasto">Miasto:</label><br>
     <input type="text" name="miasto"><br>
     <label for="kp">Poczta:</label><br>
-    <input type="text" name="kp"><br>
+    <input type="text" name="kp"><br><br>
+    <input type="submit" class='btn btn-info' name='zaplac' value="Kup i zapłać"><br>
   </form>
 
   
@@ -170,7 +171,6 @@ $zalogowany = $_SESSION['valid'];
      echo  "<tr><td> Suma: </td><td>".$razem."zł</td></tr>";   
      echo "</table>";
      echo "<hr style='background-color: white; margin-top: -17.5px;'>";
-     echo "<button class='btn btn-info' name='zaplac' style='width: 450px; height: 50px;'><b>Kup i zapłać</b></button>";
      if(isset($_POST['zaplac']))
      {
          $imie=$_POST['imie'];
@@ -193,14 +193,27 @@ $zalogowany = $_SESSION['valid'];
          {
          $dodajklienta=$pdo->query("Insert into klienci (id_adres,id_uzytkownik,imie,nazwisko,telefon,email) values('".$idadres."','".$iduzytkownik."','".$imie."','".$nazwisko."','".$telefon."','".$email."') ;");
          }
-         $idklien=$pdo->query("Select * from klienci where id_uztkownik='".$iduzytkownik."';");
+         $idklien=$pdo->query("Select * from klienci where id_uzytkownik='".$iduzytkownik."';");
          $idklient=$idklien->fetch(PDO::FETCH_ASSOC);
          $idklienta=$idklient['id_klienta'];
+         $data = $_POST['my_date'];
+         $zamowienie=$pdo->query("Insert into zamowienia (id_klienta,wartosc,czy_zrealizowane,imie,nazwisko,telefon,email,adres,miasto,poczta) values ('".$idklienta."','".$razem."',0,'".$imie."','".$nazwisko."','".$telefon."','".$email."','".$adres."','".$miasto."','".$poczta."') ;");
          $produkty=$pdo->query("Select * from koszyk where id_uzytkownik='".$iduzytkownik."';");
+         $idzamowien=$pdo->query("Select * from zamowienia where id_klienta='".$idklienta."' and wartosc='".$razem."';");
+         $idzamowieni=$idzamowien->fetch(PDO::FETCH_ASSOC);
+         $idzamowienia=$idzamowieni['id_zamowienia'];
+         $ilosckoszyk=$pdo->query("Select * from koszyk where id_uzytkownik='".$iduzytkownik."';");
          foreach($produkty as $row)
          {
-         
+         $produktyzamowienia=$pdo->query("Insert into zamowienia_produkty (id_produktu,id_zamowienia,ilosc) values ('".$row['id_produktu']."','".$idzamowienia."','".$row['ilosc']."') ;");
+         $iloscproduktu=$pdo->query("Update produkty set ilosc=ilosc-".$ilosckoszyk['ilosc_kup']." where id_produktu=".$iduzytkownik.";");
          }
+         foreach($ilosckoszyk as $row)
+         {
+         $aktproduktyzamowienia=$pdo->query("Update produkty_zamowienia set ilosc=".$row['ilosc_kup']." where id_uzytkownik=".$iduzytkownik.";");
+         }
+         $czysckoszyk=$pdo->query("Delete from koszyk where id_uzytkownik='".$iduzytkownik."';");
+         header("Location: http://masnyted.ct8.pl/index.php");
      }
      
      ?>
