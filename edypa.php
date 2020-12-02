@@ -111,7 +111,41 @@ if($_SESSION['admin']!=true)
   <?php endif; ?>
   
   </nav>
-   
+   <?php
+   $szukaj=$_POST['search'];
+   $wyszuk=$pdo->query("Select * from pracownicy where login='".$szukaj."';");
+   $wyszukaj=$wyszuk->fetch(PDO::FETCH_ASSOC);
+   $login=$wyszukaj['login'];
+   $haslo=$wyszukaj['haslo'];
+   $imie=$wyszukaj['imie'];
+   $nazwisko=$wyszukaj['nazwisko'];
+   $telefon=$wyszukaj['telefon'];
+   $email=$wyszukaj['email'];
+   $zatrudniony=$wyszukaj['data_zatrudnienia'];
+   $idadres=$wyszukaj['id_adres'];
+   $adresszuka=$pdo->query("Select * from adres where id_adres='".$idadres."';");
+   $adresszukaj=$adresszuka->fetch(PDO::FETCH_ASSOC);
+   $adres=$adresszukaj['adres'];
+   $miasto=$adresszukaj['miasto'];
+   $poczta=$adresszukaj['poczta'];
+   if(isset($_POST['edytuj']))
+   {
+   $login=$_POST['login'];
+   $haslo=$_POST['haslo'];
+   $imie=$_POST['imie'];
+   $nazwisko=$_POST['nazwisko'];
+   $telefon=$_POST['telefon'];
+   $email=$_POST['email'];  
+   $adres=$_POST['adres'];
+   $miasto=$_POST['miasto'];
+   $poczta=$_POST['poczta'];
+   $zatrudniony=$_POST['data'];
+   $hashPassword = password_hash($haslo,PASSWORD_BCRYPT);
+   $zaktualizujpracownika=$pdo->query("Update pracownicy set login=".$login." ,haslo=".$hashPassword." ,imie=".$imie." ,nazwisko=".$nazwisko." ,telefon=".$telefon." ,email=".$email." ,data_zatrudnienia=".$zatrudniony." where login='".$szukaj."';");
+   $zaktualizujadres=$pdo->query("Update adres set adres=".$adres." ,miasto=".$maisto." ,poczta=".$poczta." where id_adres='".$idadres."';");
+   $zaktualizujuzytkownik=$pdo->query("Update uzytkownik set login=".$login." ,haslo=".$hashPassword." ,email=".$email." where login='".$szukaj."';");
+   }
+   ?>
 <div class="container">
   <div id="jeden" class="row">  
     <div class="col-sm">
@@ -119,11 +153,44 @@ if($_SESSION['admin']!=true)
     
     <h1><center>Wpisz login pracownika, którego chcesz zedytować: </center></h1><br><br>
     <h4>
+        <?php
+        if(isset($_POST['search']))
+        {
+        ?>
+        <form method="post">
+	<label for="login">Login pracownika:</label>
+    <input type="text" name="login" value="<?php echo $login ?>"><br>
+    <label for="haslo">Hasło:</label>
+    <input type="password" name="haslo" value="<?php echo $haslo ?>"><br>
+    <label for="imie">Imie:</label>
+    <input type="text" name="imie" value="<?php echo $imie ?>"><br>
+	<label for="nazwisko">Nazwisko:</label>
+    <input type="text" name="nazwisko" value="<?php echo $nazwisko ?>"><br>
+	<label for="telefon">Telefon:</label>
+    <input type="text" name="telefon" value="<?php echo $telefon ?>"><br>
+	<label for="email">Email:</label>
+    <input type="email" name="email" value="<?php echo $email ?>"><br>
+    <label for="adres">Adres:</label>
+    <input type="text" name="adres" value="<?php echo $adres ?>"><br>
+    <label for="miasto">Miasto:</label>
+    <input type="text" name="miasto" value="<?php echo $miasto ?>"><br>
+    <label for="poczta">Poczta:</label>
+    <input type="text" name="poczta" value="<?php echo $poczta ?>"><br>
+	<label for="data">Zatrudniony:</label>
+    <input style="width: 263px;" type="date" name="data"><br>
+    <button id="zatwierdz" type="submit" name="edytuj" class="btn btn-primary mb-2">Edytuj</button>
+    </form>
+        <?php
+        }else{
+        ?>
     <form method="post">
 	<label style="margin-left: 40px;" for="search">Login pracownika:</label>
     <input type="text" name="search"><br>
     <button id="zatwierdz" type="submit" name="submit" class="btn btn-primary mb-2">Edytuj</button>
     </form>
+    <?php
+        }
+    ?>
     
     </h4>
 
