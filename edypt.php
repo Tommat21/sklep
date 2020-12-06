@@ -14,8 +14,8 @@ if($_SESSION['admin']!=true)
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link rel="stylesheet" href="sidebar.css">
-	<title>Sklepik.exe</title>
+  <link rel="stylesheet" href="sidebar.css">
+  <title>Sklepik.exe</title>
    
   <style>
   .bg-primary {background-color:rgb(36,37,38)!important;}
@@ -48,29 +48,31 @@ if($_SESSION['admin']!=true)
   
  </div> 
      
- <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary">
- <div class="collapse navbar-collapse" id="navbarNavDropdown">
- </div>
- 
-  <div class="float-right">
-  
-  <nav class="navbar bg-primary">
+  <!--Navbar-->
+ <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary ">
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+     <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
+  <nav class="navbar bg-primary mr-auto">
   <button class="btn btn-primary" id="menu-rozwijane">Admin Panel</button>
   </nav>
-  
-  </div>
-  
-  <div class="float-right">
-  
+      <?php
+  }
+     ?> 
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+   
+  <nav class="navbar navbar-light bg-primary mr-auto">
+  </nav>
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
   <button onclick="window.location.href = 'index.php';" type="button" class="btn btn-primary">Home</button>
   </form>
   </nav>
-  
-  </div>
-  
-  <div class="float-right">
+    
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -78,9 +80,7 @@ if($_SESSION['admin']!=true)
   </form>
   </nav>
   
-  </div>
-   
-  <div class="float-right">
+  
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -88,10 +88,8 @@ if($_SESSION['admin']!=true)
   </form>
   </nav>
    
-  </div>
-
+  
 <?php if($zalogowany): ?>
-  <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -99,17 +97,17 @@ if($_SESSION['admin']!=true)
   </form>
   </nav>
   <?php else: ?>
-  <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
   <button onclick="window.location.href = 'login.php';" type="button" class="btn btn-primary">Zaloguj się</button>
   </form>
   </nav>
- 
   </div>
+
+ 
+
   <?php endif; ?>
-  
   </nav>
   <?php
   $szukaj=filter_input(INPUT_POST, 'search');
@@ -187,7 +185,7 @@ if($_SESSION['admin']!=true)
         }else{
     ?>
     <form method="post">
-	<label style="margin-left: 40px;" for="search">Nazwa produktu:</label>
+  <label style="margin-left: 40px;" for="search">Nazwa produktu:</label>
     <input type="text" name="search"><br>
     <button id="zatwierdz" type="submit" name="submit" class="btn btn-primary mb-2">Szukaj</button>
     </form>

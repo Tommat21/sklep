@@ -31,21 +31,31 @@ $zalogowany = $_SESSION['valid'];
   </head>
   <body>
      
- <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary">
- <div class="collapse navbar-collapse" id="navbarNavDropdown">
- </div>
-  
-  <div class="float-right">
-  
+ <!--Navbar-->
+ <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary ">
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+     <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
+  <nav class="navbar bg-primary mr-auto">
+  <button class="btn btn-primary" id="menu-rozwijane">Admin Panel</button>
+  </nav>
+      <?php
+  }
+     ?> 
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+   
+  <nav class="navbar navbar-light bg-primary mr-auto">
+  </nav>
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
   <button onclick="window.location.href = 'index.php';" type="button" class="btn btn-primary">Home</button>
   </form>
   </nav>
-  
-  </div>
-  
-  <div class="float-right">
+    
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -53,9 +63,7 @@ $zalogowany = $_SESSION['valid'];
   </form>
   </nav>
   
-  </div>
-   
-  <div class="float-right">
+  
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -63,10 +71,8 @@ $zalogowany = $_SESSION['valid'];
   </form>
   </nav>
    
-  </div>
-
+  
 <?php if($zalogowany): ?>
-  <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -74,17 +80,17 @@ $zalogowany = $_SESSION['valid'];
   </form>
   </nav>
   <?php else: ?>
-  <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
   <button onclick="window.location.href = 'login.php';" type="button" class="btn btn-primary">Zaloguj się</button>
   </form>
   </nav>
- 
   </div>
+
+ 
+
   <?php endif; ?>
-  
   </nav>
    
 <div class="container">

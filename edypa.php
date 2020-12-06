@@ -14,8 +14,8 @@ if($_SESSION['admin']!=true)
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link rel="stylesheet" href="sidebar.css">
-	<title>Sklepik.exe</title>
+  <link rel="stylesheet" href="sidebar.css">
+  <title>Sklepik.exe</title>
    
   <style>
   .bg-primary {background-color:rgb(36,37,38)!important;}
@@ -48,29 +48,31 @@ if($_SESSION['admin']!=true)
   
  </div> 
      
- <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary">
- <div class="collapse navbar-collapse" id="navbarNavDropdown">
- </div>
- 
-  <div class="float-right">
-  
-  <nav class="navbar bg-primary">
+ <!--Navbar-->
+ <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary ">
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+     <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
+  <nav class="navbar bg-primary mr-auto">
   <button class="btn btn-primary" id="menu-rozwijane">Admin Panel</button>
   </nav>
-  
-  </div>
-  
-  <div class="float-right">
-  
+      <?php
+  }
+     ?> 
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+   
+  <nav class="navbar navbar-light bg-primary mr-auto">
+  </nav>
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
   <button onclick="window.location.href = 'index.php';" type="button" class="btn btn-primary">Home</button>
   </form>
   </nav>
-  
-  </div>
-  
-  <div class="float-right">
+    
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -78,9 +80,7 @@ if($_SESSION['admin']!=true)
   </form>
   </nav>
   
-  </div>
-   
-  <div class="float-right">
+  
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -88,10 +88,8 @@ if($_SESSION['admin']!=true)
   </form>
   </nav>
    
-  </div>
-
+  
 <?php if($zalogowany): ?>
-  <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -99,17 +97,17 @@ if($_SESSION['admin']!=true)
   </form>
   </nav>
   <?php else: ?>
-  <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
   <button onclick="window.location.href = 'login.php';" type="button" class="btn btn-primary">Zaloguj się</button>
   </form>
   </nav>
- 
   </div>
+
+ 
+
   <?php endif; ?>
-  
   </nav>
    <?php
    $szukaj=$_POST['search'];
@@ -142,7 +140,7 @@ if($_SESSION['admin']!=true)
    $zatrudniony=$_POST['data'];
    $hashPassword = password_hash($haslo,PASSWORD_BCRYPT);
    $zaktualizujpracownika=$pdo->query("Update pracownicy set login=".$login." ,haslo=".$hashPassword." ,imie=".$imie." ,nazwisko=".$nazwisko." ,telefon=".$telefon." ,email=".$email." ,data_zatrudnienia=".$zatrudniony." where login='".$szukaj."';");
-   $zaktualizujadres=$pdo->query("Update adres set adres=".$adres." ,miasto=".$maisto." ,poczta=".$poczta." where id_adres='".$idadres."';");
+   $zaktualizujadres=$pdo->query("Update adres set adres=".$adres." ,miasto=".$miasto." ,poczta=".$poczta." where id_adres='".$idadres."';");
    $zaktualizujuzytkownik=$pdo->query("Update uzytkownik set login=".$login." ,haslo=".$hashPassword." ,email=".$email." where login='".$szukaj."';");
    }
    ?>
@@ -158,17 +156,17 @@ if($_SESSION['admin']!=true)
         {
         ?>
         <form method="post">
-	<label for="login">Login pracownika:</label>
+  <label for="login">Login pracownika:</label>
     <input type="text" name="login" value="<?php echo $login ?>"><br>
     <label for="haslo">Hasło:</label>
     <input type="password" name="haslo" value="<?php echo $haslo ?>"><br>
     <label for="imie">Imie:</label>
     <input type="text" name="imie" value="<?php echo $imie ?>"><br>
-	<label for="nazwisko">Nazwisko:</label>
+  <label for="nazwisko">Nazwisko:</label>
     <input type="text" name="nazwisko" value="<?php echo $nazwisko ?>"><br>
-	<label for="telefon">Telefon:</label>
+  <label for="telefon">Telefon:</label>
     <input type="text" name="telefon" value="<?php echo $telefon ?>"><br>
-	<label for="email">Email:</label>
+  <label for="email">Email:</label>
     <input type="email" name="email" value="<?php echo $email ?>"><br>
     <label for="adres">Adres:</label>
     <input type="text" name="adres" value="<?php echo $adres ?>"><br>
@@ -176,7 +174,7 @@ if($_SESSION['admin']!=true)
     <input type="text" name="miasto" value="<?php echo $miasto ?>"><br>
     <label for="poczta">Poczta:</label>
     <input type="text" name="poczta" value="<?php echo $poczta ?>"><br>
-	<label for="data">Zatrudniony:</label>
+  <label for="data">Zatrudniony:</label>
     <input style="width: 263px;" type="date" name="data"><br>
     <button id="zatwierdz" type="submit" name="edytuj" class="btn btn-primary mb-2">Edytuj</button>
     </form>
@@ -184,7 +182,7 @@ if($_SESSION['admin']!=true)
         }else{
         ?>
     <form method="post">
-	<label style="margin-left: 40px;" for="search">Login pracownika:</label>
+  <label style="margin-left: 40px;" for="search">Login pracownika:</label>
     <input type="text" name="search"><br>
     <button id="zatwierdz" type="submit" name="submit" class="btn btn-primary mb-2">Edytuj</button>
     </form>

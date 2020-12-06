@@ -52,34 +52,31 @@ $zalogowany = $_SESSION['valid'];
      <?php
   }
      ?> 
- <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary">
- <div class="collapse navbar-collapse" id="navbarNavDropdown">
- </div>
-  
-  <div class="float-right">
-  <?php
+  <!--Navbar-->
+ <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary ">
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+     <?php
   if($_SESSION['admin']==true)
   {
   ?>
-  <nav class="navbar bg-primary">
+  <nav class="navbar bg-primary mr-auto">
   <button class="btn btn-primary" id="menu-rozwijane">Admin Panel</button>
   </nav>
-  <?php
+      <?php
   }
      ?> 
-  </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
    
-  <div class="float-right">
-  
+  <nav class="navbar navbar-light bg-primary mr-auto">
+  </nav>
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
   <button onclick="window.location.href = 'index.php';" type="button" class="btn btn-primary">Home</button>
   </form>
   </nav>
-  
-  </div>
-  
-  <div class="float-right">
+    
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -87,9 +84,7 @@ $zalogowany = $_SESSION['valid'];
   </form>
   </nav>
   
-  </div>
-   
-  <div class="float-right">
+  
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -97,10 +92,8 @@ $zalogowany = $_SESSION['valid'];
   </form>
   </nav>
    
-  </div>
-
+  
 <?php if($zalogowany): ?>
-  <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -108,17 +101,17 @@ $zalogowany = $_SESSION['valid'];
   </form>
   </nav>
   <?php else: ?>
-  <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
   <button onclick="window.location.href = 'login.php';" type="button" class="btn btn-primary">Zaloguj się</button>
   </form>
   </nav>
- 
   </div>
+
+ 
+
   <?php endif; ?>
-  
   </nav>
    
 <div class="container float-right" style="margin-right: 5%;">
@@ -205,13 +198,23 @@ $zalogowany = $_SESSION['valid'];
          $ilosckoszyk=$pdo->query("Select * from koszyk where id_uzytkownik='".$iduzytkownik."';");
          foreach($produkty as $row)
          {
-         $produktyzamowienia=$pdo->query("Insert into zamowienia_produkty (id_produktu,id_zamowienia,ilosc) values ('".$row['id_produktu']."','".$idzamowienia."','".$row['ilosc']."') ;");
-         $iloscproduktu=$pdo->query("Update produkty set ilosc=ilosc-".$ilosckoszyk['ilosc_kup']." where id_produktu=".$iduzytkownik.";");
+         $produktyzamowienia=$pdo->query("Insert into zamowienia_produkty (id_produktu,id_zamowienia,ilosc) values ('".$row['id_produktu']."','".$idzamowienia."','".$row['ilosc_kup']."') ;");
+         $iloscproduktu=$pdo->query("Update produkty set ilosc=ilosc-".$row['ilosc_kup']." where id_produktu=".$row['id_produktu'].";");
          }
          foreach($ilosckoszyk as $row)
          {
          $aktproduktyzamowienia=$pdo->query("Update produkty_zamowienia set ilosc=".$row['ilosc_kup']." where id_uzytkownik=".$iduzytkownik.";");
          }
+              
+      $date=date('j F Y h:i:s');
+      $zam=$pdo->query("Select * FROM koszyk Natural Join produkty where id_uzytkownik='".$iduzytkownik."'");
+      $message="Dziękujemy za skorzystanie usługi w naszym sklepie. Oto potwierdzenie zakupu: \r\nEmail: ".$email."\r\nAdres zamieszkania: ".$miasto." ".$adres."\r\nTelefon: ".$telefon."\r\nData: ".$date."\r\nZakupy: \r\n";
+      foreach($zam as $row){ $message.= $row['nazwa_produktu']." x".$row['ilosc_kup']." ".$row['ilosc_kup']*$row['cena_brutto']."zł \r\n";}
+      $message.="Razem: ".$razem."zł \r\nWiadomość automatyczna, prosimy nie odpowiadać.";
+      $headers = 'From: masnyted@masnyted.ct8.pl' . "\r\n" .
+      'Reply-To: masnyted@masnyted.ct8.pl' . "\r\n";
+      mail($email, 'Potwierdzenie zakupu', $message, $headers);     
+       
          $czysckoszyk=$pdo->query("Delete from koszyk where id_uzytkownik='".$iduzytkownik."';");
          header("Location: http://masnyted.ct8.pl/index.php");
      }

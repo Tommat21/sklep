@@ -49,29 +49,31 @@ if($_SESSION['admin']!=true)
   
  </div> 
      
- <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary">
- <div class="collapse navbar-collapse" id="navbarNavDropdown">
- </div>
- 
-  <div class="float-right">
-  
-  <nav class="navbar bg-primary">
+  <!--Navbar-->
+ <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary ">
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+     <?php
+  if($_SESSION['admin']==true)
+  {
+  ?>
+  <nav class="navbar bg-primary mr-auto">
   <button class="btn btn-primary" id="menu-rozwijane">Admin Panel</button>
   </nav>
-  
-  </div>
-  
-  <div class="float-right">
-  
+      <?php
+  }
+     ?> 
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+   
+  <nav class="navbar navbar-light bg-primary mr-auto">
+  </nav>
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
   <button onclick="window.location.href = 'index.php';" type="button" class="btn btn-primary">Home</button>
   </form>
   </nav>
-  
-  </div>
-  
-  <div class="float-right">
+    
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -79,9 +81,7 @@ if($_SESSION['admin']!=true)
   </form>
   </nav>
   
-  </div>
-   
-  <div class="float-right">
+  
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -89,10 +89,8 @@ if($_SESSION['admin']!=true)
   </form>
   </nav>
    
-  </div>
-
+  
 <?php if($zalogowany): ?>
-  <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -100,17 +98,17 @@ if($_SESSION['admin']!=true)
   </form>
   </nav>
   <?php else: ?>
-  <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
   <button onclick="window.location.href = 'login.php';" type="button" class="btn btn-primary">Zaloguj się</button>
   </form>
   </nav>
- 
   </div>
+
+ 
+
   <?php endif; ?>
-  
   </nav>
    <?php
    if(isset($_POST['submit']))
@@ -166,9 +164,8 @@ if($_SESSION['admin']!=true)
        $id->execute();
        $id1=$id->fetch(PDO::FETCH_ASSOC);
        $id2=$id1['id_produktu'];
-       $zdjeciedodaj=$pdo->prepare("Insert into galeria (id_produktu,zdjecie) values (:id,:zdjecie);");
+       $zdjeciedodaj=$pdo->prepare("Insert into galeria (id_produktu,zdjecie) values (:id,$zdjecie);");
        $zdjeciedodaj->bindValue(':id', $id2, PDO::PARAM_STR);
-       $zdjeciedodaj->bindValue(':zdjecie', $zdjecie, PDO::PARAM_LOB);
        $zdjeciedodaj->execute();
    }
    ?>
@@ -183,7 +180,7 @@ if($_SESSION['admin']!=true)
   <label for="nazwa">Nazwa produktu:</label>
     <input type="text" name="nazwa"><br>
     <label for="ilosc">Ilość:</label>
-    <input type="text" name="ilosc"><br>
+    <input type="number" name="ilosc"><br>
   <label for="opis">Opis:</label>
     <textarea id="opis" name="opis" rows="4"></textarea><br>
     <label for="kategoria">Kategoria:</label>
@@ -196,7 +193,7 @@ if($_SESSION['admin']!=true)
     <input type="text" name="cenab"><br>
   <label for="vat">VAT:</label>
     <input type="text" name="vat"><br>
-    <label for="file">Zdjęcie:</label>
+    Zdjęcie:
     <input type='file' name='zdjecie'><br>
     <button id="zatwierdz" type="submit" name="submit" class="btn btn-primary mb-2">Dodaj</button>
     </form>

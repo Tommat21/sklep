@@ -28,35 +28,51 @@ $zalogowany = $_SESSION['valid'];
   
   </head>
   <body>
- <!--Navbar-->
- <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary">
- <div class="collapse navbar-collapse" id="navbarNavDropdown">
- </div>
-   
-  <div class="float-right">
   <?php
+      if($_SESSION['admin']==true)
+  {
+  ?>
+  <div class="d-flex float-left" style="margin-top: 20%;">
+  
+    <div class="bg-light" id="sidebar">
+      <div class="sidebar-gora">Admin Panel </div>
+        <a href="dodpt.php" class="list-group-item list-group-item-action bg-light">Dodaj Produkt</a>
+        <a href="edypt.php" class="list-group-item list-group-item-action bg-light">Edytuj Produkt</a>
+        <a href="usupt.php" class="list-group-item list-group-item-action bg-light">Usuń Produkt</a>
+        <a href="dodpa.php" class="list-group-item list-group-item-action bg-light">Dodaj Pracownika</a>
+        <a href="edypa.php" class="list-group-item list-group-item-action bg-light">Edytuj Pracownika</a>
+        <a href="usupa.php" class="list-group-item list-group-item-action bg-light">Usuń Pracownika</a>
+    </div>
+  
+ </div> 
+     <?php
+  }
+     ?> 
+ <!--Navbar-->
+ <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-expand-sm navbar-light bg-primary ">
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+     <?php
   if($_SESSION['admin']==true)
   {
   ?>
-  <nav class="navbar bg-primary">
+  <nav class="navbar bg-primary mr-auto">
   <button class="btn btn-primary" id="menu-rozwijane">Admin Panel</button>
   </nav>
       <?php
   }
      ?> 
-  </div>
-  
-  <div class="float-right">
-  
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+   
+  <nav class="navbar navbar-light bg-primary mr-auto">
+  </nav>
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
   <button onclick="window.location.href = 'index.php';" type="button" class="btn btn-primary">Home</button>
   </form>
   </nav>
-  
-  </div>
-  
-  <div class="float-right">
+    
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -64,9 +80,7 @@ $zalogowany = $_SESSION['valid'];
   </form>
   </nav>
   
-  </div>
-   
-  <div class="float-right">
+  
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -74,9 +88,8 @@ $zalogowany = $_SESSION['valid'];
   </form>
   </nav>
    
-  </div>
+  
 <?php if($zalogowany): ?>
-  <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
@@ -84,42 +97,21 @@ $zalogowany = $_SESSION['valid'];
   </form>
   </nav>
   <?php else: ?>
-  <div class="float-right">
   
   <nav class="navbar navbar-light bg-primary">
   <form class="form-inline">
   <button onclick="window.location.href = 'login.php';" type="button" class="btn btn-primary">Zaloguj się</button>
   </form>
   </nav>
+  </div>
+
  
-  </div>
-  <?php endif; ?>
-  </nav>
-   
-  </div>
-<?php if($zalogowany): ?>
-  <div class="float-right">
-  
-  <nav class="navbar navbar-light bg-primary">
-  <form class="form-inline">
-  <button onclick="window.location.href = 'wyloguj.php';" type="button" class="btn btn-primary">Wyloguj się</button>
-  </form>
-  </nav>
-  <?php else: ?>
-  <div class="float-right">
-  
-  <nav class="navbar navbar-light bg-primary">
-  <form class="form-inline">
-  <button onclick="window.location.href = 'login.php';" type="button" class="btn btn-primary">Zaloguj się</button>
-  </form>
-  </nav>
- 
-  </div>
+
   <?php endif; ?>
   </nav>
     
     
-      <div class="container float-right" style="margin-top: 125px; margin-bottom: 200px; margin-right: 5%;">
+      <div class="container float-right" style="margin-top: 15%; margin-bottom: 200px; margin-right: 5%;">
 
     
 <?php
