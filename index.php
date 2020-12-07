@@ -156,14 +156,14 @@ $zalogowany = $_SESSION['valid'];
     header("Location: koszyk.php");
   }
       
+  $ilosc=$_GET['ilosc'];   
   if ($_GET['czy_limit']=='tak' && $_POST['wyszukaj']){
-  $ilosc=$_GET['ilosc'];
   $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie where nazwa_produktu like '%$szukaj%' or kategoria like '%$szukaj%' LIMIT ".$ilosc."");
   }
   else if($_POST['wyszukaj']){
   $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie where nazwa_produktu like '%$szukaj%' or kategoria like '%$szukaj%'");
   }
-  else if($_GET['czy_limit']=='tak')
+  else if($_GET['czy_limit']=='tak' && $_POST['wyszukaj']=='')
   {
   $stmt=$pdo->query("SELECT * FROM produkty Natural Join galeria Natural Join kategorie LIMIT ".$ilosc."");
   }
